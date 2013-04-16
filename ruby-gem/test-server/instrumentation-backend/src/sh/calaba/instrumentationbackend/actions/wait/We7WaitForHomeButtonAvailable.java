@@ -5,7 +5,8 @@ import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.Action;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 
-import android.widget.ImageView;
+import java.util.HashMap;
+import android.view.View;
 import android.graphics.ColorFilter;
 import java.lang.reflect.Field;
 
@@ -15,27 +16,16 @@ public class We7WaitForHomeButtonAvailable implements Action {
     public Result execute(String... args) {
         
         final String firstArgument = args[0];
-        final ImageView foundView = (ImageView) TestHelpers.getViewById(firstArgument);
+        final View foundView = TestHelpers.getViewById(firstArgument);
         
         if( null == foundView) {
             return notFoundResult(firstArgument);
         }
-
-        ColorFilter colorFilterInstance = null;
-        Field mColorFilterField;
-        try {
-            mColorFilterField = foundView.getClass().getDeclaredField("mColorFilter");
-            mColorFilterField.setAccessible(true);
-            colorFilterInstance = (ColorFilter) mColorFilterField.get(foundView);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-            return new Result(false, "NoSuchFieldException");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return new Result(false, "IllegalArgumentException");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return new Result(false, "IllegalAccessException");
+       
+        HashMap<String, Boolean> tagMap = (HashMap<String, Boolean>) foundView.getTag();
+        
+        if (null == tagMap) {
+            return new Result(false, "No availability tag set on home button");
         }
         
         int timeout = 90 * 1000;
@@ -51,7 +41,7 @@ public class We7WaitForHomeButtonAvailable implements Action {
         long endTime = System.currentTimeMillis() + timeout;
         while (System.currentTimeMillis() < endTime) {
             
-            if (null == colorFilterInstance) {
+            if (tagMap.get("available")) {
                 
                return Result.successResult();
                 
