@@ -34,7 +34,7 @@ public class We7ClickListItemWithText implements Action {
 		int count = list.getAdapter().getCount();
 		for( int i = 0; i < count; i++ ) {
             
-            View item = list.getAdapter().getItem(i)
+            View item = list.getAdapter().getItem(i);
             
             ArrayList<TextView> textViews = InstrumentationBackend.solo.getCurrentTextViews(item);
             
