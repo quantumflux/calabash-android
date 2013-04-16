@@ -12,6 +12,9 @@ import java.lang.reflect.Field;
 
 public class We7WaitForHomeButtonAvailable implements Action {
 
+    // This MUST be the same value as set in com.we7.player.ui.fragment.We7Fragment.CONTENT_AVAILABILITY_KEY
+    public static final String CONTENT_AVAILABILITY_KEY = "available";
+    
     @Override
     public Result execute(String... args) {
         
@@ -22,7 +25,7 @@ public class We7WaitForHomeButtonAvailable implements Action {
             return notFoundResult(firstArgument);
         }
        
-        HashMap<String, Boolean> tagMap = (HashMap<String, Boolean>) foundView.getTag();
+        HashMap<String, Object> tagMap = (HashMap<String, Object>) foundView.getTag();
         
         if (null == tagMap) {
             return new Result(false, "No availability tag set on home button");
@@ -41,7 +44,7 @@ public class We7WaitForHomeButtonAvailable implements Action {
         long endTime = System.currentTimeMillis() + timeout;
         while (System.currentTimeMillis() < endTime) {
             
-            if (tagMap.get("available")) {
+            if ((Boolean) tagMap.get(CONTENT_AVAILABILITY_KEY)) {
                 
                return Result.successResult();
                 
