@@ -28,8 +28,6 @@ public class We7ClickTabFragmentListItem implements Action {
 
     }
 
-    tabHost.setCurrentTab(tabIndex);
-
     ListView listView = (ListView) InstrumentationBackend.solo.getView(ListView.class, tabIndex);
 
     ArrayList<TextView> listTextViews = InstrumentationBackend.solo.clickInList(listItemIndex, tabIndex);
