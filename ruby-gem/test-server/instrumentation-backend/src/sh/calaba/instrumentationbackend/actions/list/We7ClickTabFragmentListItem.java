@@ -29,6 +29,7 @@ public class We7ClickTabFragmentListItem implements Action {
       return new Result(false, "tab " + tabIndex + " is not current tab (" + tabHost.getCurrentTab() + ")");
     }
 
+    /* This probably not actually needed. Keeping code in case am wrong
     long startTime = System.currentTimeMillis();
     long timeOut = 90 * 1000;
     Result result = null;
@@ -59,8 +60,16 @@ public class We7ClickTabFragmentListItem implements Action {
     if (result == null) {
       result = new Result(false, (lastException == null ? "":" /nAn exception was thrown: " + lastException.getMessage() + " /n" + lastException.getStackTrace()));
     }
+     */
 
-    return result;
+    ArrayList<TextView> listTextViews = InstrumentationBackend.solo.clickInList(listItemIndex, tabIndex);
+
+    StringBuilder sb = new StringBuilder();
+    for (TextView tv : listTextViews) {
+      sb.append(tv.getText() + ",");
+    }
+
+    return new Result(true, sb.toString());
 
   }
 
