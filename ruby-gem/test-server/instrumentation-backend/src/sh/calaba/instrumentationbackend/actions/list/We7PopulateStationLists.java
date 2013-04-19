@@ -1,11 +1,15 @@
 package sh.calaba.instrumentationbackend.actions.list;
 
+import java.util.ArrayList;
+
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.Action;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 public class We7PopulateStationLists implements Action {
 
@@ -14,26 +18,37 @@ public class We7PopulateStationLists implements Action {
 
     // Create a history and a favourites list
 
-    System.out.println("Ensuring there are History and Favourite lists");
+    InstrumentationBackend.log("Ensuring there are History and Favourite lists");
 
     InstrumentationBackend.solo.clickOnText("WE7 Themed");
 
     TabHost tabHost = (TabHost) InstrumentationBackend.solo.getView(TabHost.class, 0);
 
     if (tabHost == null) {
-      return new Result(false, "No TabHost found");
+      InstrumentationBackend.log("No tab host found");
+      return new Result(false, "No TabHost found - am I on All Stations page?");
+    }
+
+    InstrumentationBackend.log("Tab host found");
+
+    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
+
+    InstrumentationBackend.log("List items found: " + listViews.size());
+
+    for (int i = 0 ; i < listViews.size(); i++) {
+      InstrumentationBackend.log("List item " + i + " has " + listViews.get(i).getCount() + " items");
     }
 
     int we7ThemedIndex;
-    switch(tabHost.getTabWidget().getTabCount()) {
+    switch(listViews.size()) {
       case 0:
-        // no tabs found
-        return new Result(false, "No tabs found");
+        // no list views found
+        return new Result(false, "No list views found");
       case 1:
-        // Not enough tabs found
-        return new Result(false, "Only one tab found");
+        // Not enough list views found
+        return new Result(false, "Only one list views found");
       case 2:
-        // both history or favourites is empty
+        // both history and favourites are empty
         we7ThemedIndex = 1;
         break;
       case 3:
@@ -42,12 +57,18 @@ public class We7PopulateStationLists implements Action {
         break;
       case 4:
         // both history and favourites exist
-        return new Result(true, "History and favourites are populated");
+        we7ThemedIndex = 3;
+        break;
       default:
-        return new Result(false, "Too many tabs found");
+        return new Result(false, "Too many list views found: " + listViews.size());
     }
 
-    InstrumentationBackend.solo.clickInList(1, we7ThemedIndex);
+    ArrayList<TextView> itemText = InstrumentationBackend.solo.clickInList(1, we7ThemedIndex);
+
+    InstrumentationBackend.log("Text of clicked item:");
+    for (int i = 0 ; i < itemText.size(); i++) {
+      InstrumentationBackend.log(itemText.get(i).getText().toString());
+    }
 
     String viewId = "favourite";
     View favouriteView;
