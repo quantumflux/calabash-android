@@ -57,9 +57,9 @@ public class We7WaitForPlayableListLoaded implements Action {
   @Override
   public String key() {
 
-    InstrumentationBackend.log("returning key name wait_for_list_loaded");
+    InstrumentationBackend.log("returning key name wait_for_playable_list_loaded");
 
-    return "wait_for_all_stations_list_loaded";
+    return "wait_for_playable_list_loaded";
   }
 
 }
