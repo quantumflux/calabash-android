@@ -38,7 +38,7 @@ public class We7PlayAStationFromAllRadio implements Action {
     int listIndex = getTabListIndex(tabName);
 
     if (listIndex == -1) {
-      return new Result(false, "Target list not found");
+      return new Result(false, "Could not find list.");
     }
 
     ArrayList<TextView> itemText = InstrumentationBackend.solo.clickInList(itemIndex, listIndex);

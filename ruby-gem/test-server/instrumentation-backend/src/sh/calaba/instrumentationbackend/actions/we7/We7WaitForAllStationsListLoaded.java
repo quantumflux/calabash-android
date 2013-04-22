@@ -27,6 +27,10 @@ public class We7WaitForAllStationsListLoaded implements Action {
 
     ListView waitingListView = getListView(tabName);
 
+    if (waitingListView == null) {
+    	return new Result(false, "Could not find list.");
+    }
+    
     InstrumentationBackend.log("Found list. Waiting up to " + (timeout/1000) + " seconds for " + tabName + " to load)");
 
     long endTime = System.currentTimeMillis() + timeout;
