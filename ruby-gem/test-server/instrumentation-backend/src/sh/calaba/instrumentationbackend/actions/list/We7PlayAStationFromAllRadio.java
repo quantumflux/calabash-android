@@ -71,7 +71,7 @@ public class We7PlayAStationFromAllRadio implements Action {
 
   @Override
   public String key() {
-    return "play_a_hot_station";
+    return "play_a_station";
   }
 
 }
