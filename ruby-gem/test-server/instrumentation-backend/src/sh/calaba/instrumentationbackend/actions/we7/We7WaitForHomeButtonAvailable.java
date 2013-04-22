@@ -1,4 +1,4 @@
-package sh.calaba.instrumentationbackend.actions.wait;
+package sh.calaba.instrumentationbackend.actions.we7;
 
 import java.util.HashMap;
 

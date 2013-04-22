@@ -1,4 +1,4 @@
-package sh.calaba.instrumentationbackend.actions.list;
+package sh.calaba.instrumentationbackend.actions.we7;
 
 import java.util.ArrayList;
 
