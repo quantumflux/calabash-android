@@ -7,6 +7,7 @@ import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 public class We7PlayAStationFromAllRadio implements Action {
 
@@ -34,44 +35,51 @@ public class We7PlayAStationFromAllRadio implements Action {
     // goto tab
     InstrumentationBackend.solo.clickOnText(tabName);
 
-    // get list views
-    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
+    int listIndex = getTabListIndex(tabName);
 
-    InstrumentationBackend.log("List items found: " + listViews.size());
-
-    ListView targetListView = null;
-    for (int i = 0; i < listViews.size(); i++) {
-
-      ListView lv = listViews.get(i);
-
-      InstrumentationBackend.log("Found list view with content description: " + lv.getContentDescription());
-
-      if (lv.getContentDescription().equals(tabName)) {
-
-        InstrumentationBackend.log("Found correct list");
-
-        targetListView = lv;
-        break;
-
-      }
-
-    }
-
-    if (targetListView == null) {
+    if (listIndex == -1) {
       return new Result(false, "Target list not found");
     }
 
-    InstrumentationBackend.log("Selecting and clicking on list itemIndex: " + itemIndex);
-    targetListView.setSelection(itemIndex);
-    InstrumentationBackend.solo.clickOnView(targetListView.getSelectedView());
+    ArrayList<TextView> itemText = InstrumentationBackend.solo.clickInList(itemIndex, listIndex);
+
+    InstrumentationBackend.log("Text of clicked item:");
+    for (int i = 0 ; i < itemText.size(); i++) {
+      InstrumentationBackend.log(itemText.get(i).getText().toString());
+    }
 
     return new Result(true);
 
   }
 
+  protected int getTabListIndex(final String tabName) {
+
+    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
+
+    for (int i = 0; i < listViews.size(); i++) {
+
+      String contentDescription = listViews.get(i).getContentDescription().toString();
+
+      InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
+
+      if (contentDescription.equalsIgnoreCase(tabName)) {
+
+        InstrumentationBackend.log("Found list for " + tabName);
+
+        return i;
+
+      }
+
+    }
+
+    return -1;
+
+  }
+
+
   @Override
   public String key() {
-    return "play_a_station";
+    return "play_an_all_stations_station";
   }
 
 }

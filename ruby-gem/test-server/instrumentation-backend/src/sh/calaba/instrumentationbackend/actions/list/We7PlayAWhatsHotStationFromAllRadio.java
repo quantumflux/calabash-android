@@ -38,15 +38,7 @@ public class We7PlayAWhatsHotStationFromAllRadio implements Action {
 
     InstrumentationBackend.log("List items found: " + listViews.size());
 
-    int listIndex;
-    boolean[] isListEmpty = getEmptyLists();
-    if (isListEmpty[0] && isListEmpty[1]) {
-      listIndex = 0;
-    } else if (isListEmpty[0] || isListEmpty[1]) {
-      listIndex = 1;
-    } else {
-      listIndex = 2;
-    }
+    int listIndex = getWhatsHotListIndex();
 
     InstrumentationBackend.log("whatsHotIndex = " + listIndex);
 
@@ -64,26 +56,33 @@ public class We7PlayAWhatsHotStationFromAllRadio implements Action {
 
   }
 
-  protected boolean[] getEmptyLists() {
+  protected int getWhatsHotListIndex() {
 
     ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
 
-    boolean[] isListEmpty = new boolean[listViews.size()];
     for (int i = 0; i < listViews.size(); i++) {
 
-      isListEmpty[i] = listViews.get(i).getAdapter().isEmpty();
+      String contentDescription = listViews.get(i).getContentDescription().toString();
 
-      InstrumentationBackend.log("List view " + i + " is empty = " + isListEmpty[i] + " (count = " + listViews.get(i).getCount() + ")");
+      InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
+
+      if (contentDescription.equalsIgnoreCase("What's Hot")) {
+
+        InstrumentationBackend.log("Found What's Hot");
+
+        return i;
+
+      }
 
     }
 
-    return isListEmpty;
+    return -1;
 
   }
 
   @Override
   public String key() {
-    return "play_a_hot_station";
+    return "play_a_whats_hot_station";
   }
 
 }
