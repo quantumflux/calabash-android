@@ -33,6 +33,12 @@ public class We7PressListItemByListContentDescription extends We7Action implemen
     
     StringBuilder sb = new StringBuilder();
     for (TextView tv : listTextViews) {
+      
+      if (tv.getContentDescription().toString().equals("song title")){
+    	  InstrumentationBackend.log("Found song title TextView");
+    	  setValue(LAST_TRACK_NAME, tv.getContentDescription().toString());
+      }
+    	
       sb.append(tv.getText() + ",");
     }
 

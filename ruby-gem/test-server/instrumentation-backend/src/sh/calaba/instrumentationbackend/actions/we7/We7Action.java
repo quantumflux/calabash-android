@@ -1,11 +1,22 @@
 package sh.calaba.instrumentationbackend.actions.we7;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import android.widget.ListView;
 
 public class We7Action {
+	
+	protected static final String LAST_TRACK_NAME = "lasttrackname";
+	
+	protected void setValue(String key, String value) {
+		We7ActionHelper.setValue(key, value);
+	}
+	
+	protected String getValue(String key) {
+		return We7ActionHelper.getValue(key);
+	}
 	
 	protected int getListViewIndex(final String listContentDescription) {
 
