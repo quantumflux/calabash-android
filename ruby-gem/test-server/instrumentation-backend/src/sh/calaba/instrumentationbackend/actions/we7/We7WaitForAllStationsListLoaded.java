@@ -8,7 +8,7 @@ import sh.calaba.instrumentationbackend.actions.Action;
 import android.view.View;
 import android.widget.ListView;
 
-public class We7WaitForAllStationsListLoaded implements Action {
+public class We7WaitForAllStationsListLoaded extends We7Action {
 
   @Override
   public Result execute(final String... args) {
@@ -59,32 +59,6 @@ public class We7WaitForAllStationsListLoaded implements Action {
     InstrumentationBackend.log("Timed out while waiting for list " + tabName);
 
     return new Result(false, "Timed out while waiting for list " + tabName);
-
-  }
-
-  protected ListView getListView(final String tabName) {
-
-    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
-
-    InstrumentationBackend.log("Found " + listViews.size() + " list views. Looking for index for " + tabName);
-
-    for (int i = 0; i < listViews.size(); i++) {
-
-      String contentDescription = listViews.get(i).getContentDescription().toString();
-
-      InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
-
-      if (contentDescription.equalsIgnoreCase(tabName)) {
-
-        InstrumentationBackend.log("Found list for " + tabName);
-
-        return listViews.get(i);
-
-      }
-
-    }
-
-    return null;
 
   }
 

@@ -8,7 +8,7 @@ import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.Action;
 import android.view.View;
 
-public class We7WaitForHomeButtonAvailable implements Action {
+public class We7WaitForHomeButtonAvailable extends We7Action {
 
   // This MUST be the same value as set in com.we7.player.ui.fragment.We7Fragment.CONTENT_AVAILABILITY_KEY
   public static final String CONTENT_AVAILABILITY_KEY = "available";

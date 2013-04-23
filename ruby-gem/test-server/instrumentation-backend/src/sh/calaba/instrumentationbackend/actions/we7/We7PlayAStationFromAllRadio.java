@@ -9,7 +9,7 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-public class We7PlayAStationFromAllRadio implements Action {
+public class We7PlayAStationFromAllRadio extends We7Action {
 
   @Override
   public Result execute(final String... args) {
@@ -35,7 +35,7 @@ public class We7PlayAStationFromAllRadio implements Action {
     // goto tab
     InstrumentationBackend.solo.clickOnText(tabName);
 
-    int listIndex = getTabListIndex(tabName);
+    int listIndex = getListViewIndex(tabName);
 
     if (listIndex == -1) {
       return new Result(false, "Could not find list.");
@@ -51,31 +51,6 @@ public class We7PlayAStationFromAllRadio implements Action {
     return new Result(true);
 
   }
-
-  protected int getTabListIndex(final String tabName) {
-
-    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
-
-    for (int i = 0; i < listViews.size(); i++) {
-
-      String contentDescription = listViews.get(i).getContentDescription().toString();
-
-      InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
-
-      if (contentDescription.equalsIgnoreCase(tabName)) {
-
-        InstrumentationBackend.log("Found list for " + tabName);
-
-        return i;
-
-      }
-
-    }
-
-    return -1;
-
-  }
-
 
   @Override
   public String key() {

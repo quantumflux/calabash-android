@@ -8,7 +8,7 @@ import sh.calaba.instrumentationbackend.actions.Action;
 import android.view.View;
 import android.widget.ListView;
 
-public class We7WaitForListByContentDescription implements Action {
+public class We7WaitForListByContentDescription extends We7Action {
 
   @Override
   public Result execute(final String... args) {
@@ -62,32 +62,6 @@ public class We7WaitForListByContentDescription implements Action {
 
   }
 
-  protected ListView getListView(final String listContentDescription) {
-
-	ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
-
-	InstrumentationBackend.log("Found " + listViews.size() + " list views. Looking for index for " + listContentDescription);
-
-	for (int i = 0; i < listViews.size(); i++) {
-
-		String contentDescription = listViews.get(i).getContentDescription().toString();
-
-	 	InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
-
-	  	if (contentDescription.equalsIgnoreCase(listContentDescription)) {
-
-	  		InstrumentationBackend.log("Found list for " + listContentDescription);
-
-	        return listViews.get(i);
-
-		}
-		
-	}
-
-	return null;
-
-  }
-  
   @Override
   public String key() {
 
