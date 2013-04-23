@@ -44,7 +44,16 @@ public class We7PlayAStationFromAllRadio extends We7Action implements Action {
 
     InstrumentationBackend.log("Text of clicked item:");
     for (int i = 0 ; i < itemText.size(); i++) {
+    	
+      TextView tv = itemText.get(i);
+    	
+      if (tv.getContentDescription()!= null && tv.getContentDescription().toString().equals("playable title")){
+          InstrumentationBackend.log("Found playable title TextView");
+       	  setValue(LAST_PLAYABLE_NAME, tv.getText().toString());
+      }
+    	
       InstrumentationBackend.log(itemText.get(i).getText().toString());
+      
     }
 
     return new Result(true);

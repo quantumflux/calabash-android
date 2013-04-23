@@ -9,6 +9,7 @@ import android.widget.ListView;
 public class We7Action {
 	
 	protected static final String LAST_TRACK_NAME = "lasttrackname";
+	protected static final String LAST_PLAYABLE_NAME = "lastplayablename";
 	
 	protected void setValue(String key, String value) {
 		We7ActionHelper.setValue(key, value);
