@@ -8,7 +8,7 @@ import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.Action;
 import android.view.View;
 
-public class We7WaitForHomeButtonAvailable extends We7Action {
+public class We7WaitForHomeButtonAvailable extends We7Action implements Action {
 
   // This MUST be the same value as set in com.we7.player.ui.fragment.We7Fragment.CONTENT_AVAILABILITY_KEY
   public static final String CONTENT_AVAILABILITY_KEY = "available";
@@ -23,7 +23,8 @@ public class We7WaitForHomeButtonAvailable extends We7Action {
       return notFoundResult(firstArgument);
     }
 
-    HashMap<String, Object> tagMap = (HashMap<String, Object>) foundView.getTag();
+    @SuppressWarnings("unchecked")
+	HashMap<String, Object> tagMap = (HashMap<String, Object>) foundView.getTag();
 
     if (null == tagMap) {
       return new Result(false, "No availability tag set on home button");

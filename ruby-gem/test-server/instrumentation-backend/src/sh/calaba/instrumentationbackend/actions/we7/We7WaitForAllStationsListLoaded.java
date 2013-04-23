@@ -1,14 +1,12 @@
 package sh.calaba.instrumentationbackend.actions.we7;
 
-import java.util.ArrayList;
-
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 import android.view.View;
 import android.widget.ListView;
 
-public class We7WaitForAllStationsListLoaded extends We7Action {
+public class We7WaitForAllStationsListLoaded extends We7Action implements Action {
 
   @Override
   public Result execute(final String... args) {

@@ -2,11 +2,10 @@ package sh.calaba.instrumentationbackend.actions.we7;
 
 import java.util.ArrayList;
 
-import android.widget.ListView;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
-import sh.calaba.instrumentationbackend.actions.Action;
+import android.widget.ListView;
 
-public abstract class We7Action implements Action {
+public class We7Action {
 	
 	protected int getListViewIndex(final String listContentDescription) {
 

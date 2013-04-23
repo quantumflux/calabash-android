@@ -6,7 +6,7 @@ import sh.calaba.instrumentationbackend.actions.Action;
 import android.view.View;
 import android.widget.ListView;
 
-public class We7WaitForListOfPlayablesLoaded extends We7Action {
+public class We7WaitForListOfPlayablesLoaded extends We7Action implements Action {
 
   @Override
   public Result execute(final String... args) {

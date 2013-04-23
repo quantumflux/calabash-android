@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
-import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-public class We7PlayAStationFromAllRadio extends We7Action {
+public class We7PlayAStationFromAllRadio extends We7Action implements Action {
 
   @Override
   public Result execute(final String... args) {
