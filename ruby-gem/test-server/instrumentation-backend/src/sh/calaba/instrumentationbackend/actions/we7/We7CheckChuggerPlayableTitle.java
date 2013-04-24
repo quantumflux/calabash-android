@@ -19,7 +19,7 @@ public class We7CheckChuggerPlayableTitle extends We7Action implements Action {
 		}
 		
 		if (playableTitle == null) {
-			return new Result(false, "No playable title provided in args or from LAST_TRACK_NAME in cache");
+			return new Result(false, "No playable title provided in args or from LAST_PLAYABLE_NAME in cache");
 		}
 		
 		int timeout = 90 * 1000;
