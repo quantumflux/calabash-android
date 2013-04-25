@@ -4,12 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import android.os.StrictMode;
 import android.widget.ListView;
 
 public class We7Action {
 	
 	protected static final String LAST_TRACK_NAME = "lasttrackname";
 	protected static final String LAST_PLAYABLE_NAME = "lastplayablename";
+	
+	public We7Action(){
+		
+		StrictMode.enableDefaults();
+		
+	}
 	
 	protected void setValue(String key, String value) {
 		We7ActionHelper.setValue(key, value);
