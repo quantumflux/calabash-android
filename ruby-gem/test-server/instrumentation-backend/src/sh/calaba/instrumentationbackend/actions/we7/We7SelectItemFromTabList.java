@@ -8,7 +8,7 @@ import sh.calaba.instrumentationbackend.actions.Action;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-public class We7PlayPlayableFromTabList extends We7Action implements Action {
+public class We7SelectItemFromTabList extends We7Action implements Action {
 
   @Override
   public Result execute(final String... args) {
@@ -62,7 +62,7 @@ public class We7PlayPlayableFromTabList extends We7Action implements Action {
 
   @Override
   public String key() {
-    return "play_a_tab_list_playable";
+    return "select_item_from_tab_list";
   }
 
 }
