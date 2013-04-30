@@ -143,7 +143,7 @@ public class SoloEnhanced extends Solo {
 			
 			InstrumentationBackend.log(v.toString());
 			
-			if (v.getId() == resId) {
+			if (v.toString().contains(resourceName)) {
 			
 				InstrumentationBackend.log("view found - performing click on UI thread");
 				
