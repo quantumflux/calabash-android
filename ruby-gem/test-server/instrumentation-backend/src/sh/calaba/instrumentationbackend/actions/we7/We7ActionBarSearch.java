@@ -2,6 +2,8 @@ package sh.calaba.instrumentationbackend.actions.we7;
 
 import java.util.ArrayList;
 
+import com.jayway.android.robotium.solo.SoloEnhanced;
+
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.TestHelpers;
@@ -22,26 +24,19 @@ public class We7ActionBarSearch extends We7Action implements Action {
 			
 			InstrumentationBackend.log("Unable to find action_logo so assuming true ActionBar");	
 			
-			
-			Window window = InstrumentationBackend.solo.getCurrentActivity().getWindow();
-			
-			View decorView = window.getDecorView();
-			
-			ArrayList<ImageButton> imageButtonViews = InstrumentationBackend.solo.getCurrentImageButtons(decorView);
-			
-			for (ImageButton ib : imageButtonViews) {
+			InstrumentationBackend.log("Clicking on Search");
+			if (!InstrumentationBackend.solo.clickOnActionBar(SoloEnhanced.ActionBarItems.SEARCH)) {
 				
-				InstrumentationBackend.log(ib.toString());
-
+				return new Result(false, "Action bar search view not found");
+				
 			}
 			
+			InstrumentationBackend.log("Entering search text " + args[0]);
+			InstrumentationBackend.solo.enterText(0, args[0]);
 			
 			InstrumentationBackend.log("Clicking on Search");
-			InstrumentationBackend.solo.clickOnMenuItem("Search");
-			InstrumentationBackend.log("Entering search text " + args[0]);
-			InstrumentationBackend.solo.enterText(0, args[0]); 
-			InstrumentationBackend.log("Clicking on Search");
-			InstrumentationBackend.solo.clickOnMenuItem("Search");
+			InstrumentationBackend.solo.clickOnActionBar(SoloEnhanced.ActionBarItems.SEARCH);
+			
 			InstrumentationBackend.log("Done");
 			
 		} else {
