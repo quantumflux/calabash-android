@@ -1,10 +1,9 @@
 package sh.calaba.instrumentationbackend.actions.we7;
 
-import android.view.View;
-import android.widget.TextView;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
+import android.widget.TextView;
 
 public class We7CheckChuggerPlayableTitle extends We7Action implements Action {
 

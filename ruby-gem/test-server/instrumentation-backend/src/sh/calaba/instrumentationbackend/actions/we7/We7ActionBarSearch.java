@@ -2,14 +2,14 @@ package sh.calaba.instrumentationbackend.actions.we7;
 
 import java.util.ArrayList;
 
-import android.view.View;
-import android.view.Window;
-import android.widget.EditText;
-import android.widget.ImageView;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.Action;
+import android.view.View;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class We7ActionBarSearch extends We7Action implements Action {
 
@@ -22,19 +22,19 @@ public class We7ActionBarSearch extends We7Action implements Action {
 			
 			InstrumentationBackend.log("Unable to find action_logo so assuming true ActionBar");	
 			
-			/*
+			
 			Window window = InstrumentationBackend.solo.getCurrentActivity().getWindow();
 			
 			View decorView = window.getDecorView();
 			
-			ArrayList<View> imageViews = InstrumentationBackend.solo.getCurrentViews(View.class, decorView);
+			ArrayList<ImageButton> imageButtonViews = InstrumentationBackend.solo.getCurrentImageButtons(decorView);
 			
-			for (View im : imageViews) {
+			for (ImageButton ib : imageButtonViews) {
 				
-				InstrumentationBackend.log(im.toString());
+				InstrumentationBackend.log(ib.toString());
 
 			}
-			*/
+			
 			
 			InstrumentationBackend.log("Clicking on Search");
 			InstrumentationBackend.solo.clickOnMenuItem("Search");
@@ -73,44 +73,6 @@ public class We7ActionBarSearch extends We7Action implements Action {
 		}
 		
 		return new Result(true);
-		
-	}
-	
-	private boolean pressView(String viewId) {
-		
-		InstrumentationBackend.log("Clicking on " + viewId);
-		
-		final View view = TestHelpers.getViewById(viewId);
-		
-        if(view == null) {
-            return false;
-        }
-        
-		try {
-			InstrumentationBackend.log("Clicking on view: " + view.getClass());
-			InstrumentationBackend.log("" + view.getLeft());
-			InstrumentationBackend.log("" + view.getTop());
-			InstrumentationBackend.log("" + view.getWidth());
-			InstrumentationBackend.log("" + view.getHeight());
-			int[] xy = new int[2];
-
-			view.getLocationOnScreen(xy);
-			InstrumentationBackend.log("" + xy[0]);
-			InstrumentationBackend.log("" + xy[1]);
-			
-			InstrumentationBackend.solo.clickOnView(view);		
-		} catch(junit.framework.AssertionFailedError e) {
-			InstrumentationBackend.log("solo.clickOnView failed - using fallback");
-			if (view.isClickable()) {
-				InstrumentationBackend.solo.getCurrentActivity().runOnUiThread(new Runnable() {
-					public void run() {
-						view.performClick();
-					}	
-				});
-			}
-		}
-		
-		return true;
 		
 	}
 	

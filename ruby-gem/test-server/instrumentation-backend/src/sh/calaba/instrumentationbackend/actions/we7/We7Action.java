@@ -1,10 +1,11 @@
 package sh.calaba.instrumentationbackend.actions.we7;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.TestHelpers;
 import android.os.StrictMode;
+import android.view.View;
 import android.widget.ListView;
 
 public class We7Action {
@@ -77,5 +78,43 @@ public class We7Action {
 	    return null;
 
 	  }
+	
+	protected boolean pressView(String viewId) {
+		
+		InstrumentationBackend.log("Clicking on " + viewId);
+		
+		final View view = TestHelpers.getViewById(viewId);
+		
+        if(view == null) {
+            return false;
+        }
+        
+		try {
+			InstrumentationBackend.log("Clicking on view: " + view.getClass());
+			InstrumentationBackend.log("" + view.getLeft());
+			InstrumentationBackend.log("" + view.getTop());
+			InstrumentationBackend.log("" + view.getWidth());
+			InstrumentationBackend.log("" + view.getHeight());
+			int[] xy = new int[2];
+
+			view.getLocationOnScreen(xy);
+			InstrumentationBackend.log("" + xy[0]);
+			InstrumentationBackend.log("" + xy[1]);
+			
+			InstrumentationBackend.solo.clickOnView(view);		
+		} catch(junit.framework.AssertionFailedError e) {
+			InstrumentationBackend.log("solo.clickOnView failed - using fallback");
+			if (view.isClickable()) {
+				InstrumentationBackend.solo.getCurrentActivity().runOnUiThread(new Runnable() {
+					public void run() {
+						view.performClick();
+					}	
+				});
+			}
+		}
+		
+		return true;
+		
+	}
 
 }

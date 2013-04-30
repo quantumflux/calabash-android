@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.view.View;
+import android.widget.ImageButton;
 
 public class SoloEnhanced extends Solo {
 	// private Pincher pincher;
@@ -74,6 +75,32 @@ public class SoloEnhanced extends Solo {
 	 */
 	public List<String> getMapBounds() {
 		return mapViewUtils.getBounds();
+	}
+
+	/**
+	 * Get all Image buttons that are children of the parent view
+	 * 
+	 * @param parentView
+	 * @return
+	 */
+	public ArrayList<ImageButton> getCurrentImageButtons(View parentView) {
+		
+		ArrayList<ImageButton> currentImageButtons = new ArrayList<ImageButton>();
+		
+		ArrayList<View> currentViews = getViews(parentView);
+		
+		for (View view : currentViews) {
+			
+			if (view instanceof ImageButton) {
+				
+				currentImageButtons.add((ImageButton) view);
+				
+			}
+			
+		}
+		
+		return currentImageButtons;
+		
 	}
 
 	// /**
