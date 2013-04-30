@@ -6,7 +6,7 @@ import sh.calaba.instrumentationbackend.actions.Action;
 import android.view.View;
 import android.widget.ListView;
 
-public class We7WaitForAllStationsListLoaded extends We7Action implements Action {
+public class We7WaitForPlayableListLoaded extends We7Action implements Action {
 
   @Override
   public Result execute(final String... args) {
@@ -65,7 +65,7 @@ public class We7WaitForAllStationsListLoaded extends We7Action implements Action
 
     InstrumentationBackend.log("returning key name wait_for_list_loaded");
 
-    return "wait_for_all_stations_list_loaded";
+    return "wait_for_playable_list_loaded";
   }
 
 }
