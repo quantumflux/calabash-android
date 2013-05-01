@@ -12,6 +12,7 @@ public class We7Action {
 	
 	protected static final String LAST_TRACK_NAME = "lasttrackname";
 	protected static final String LAST_PLAYABLE_NAME = "lastplayablename";
+	protected static final String LAST_LONG_CLICK_TEXT = "lastlongclicktext";
 	
 	public We7Action(){
 		
