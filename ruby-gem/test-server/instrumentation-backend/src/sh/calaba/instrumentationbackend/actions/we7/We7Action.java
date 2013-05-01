@@ -9,87 +9,100 @@ import android.view.View;
 import android.widget.ListView;
 
 public class We7Action {
-	
+
 	protected static final String LAST_TRACK_NAME = "lasttrackname";
 	protected static final String LAST_PLAYABLE_NAME = "lastplayablename";
 	protected static final String LAST_LONG_CLICK_TEXT = "lastlongclicktext";
-	
-	public We7Action(){
-		
+
+	public We7Action() {
+
 		StrictMode.enableDefaults();
-		
+
 	}
-	
+
 	protected void setValue(String key, String value) {
 		We7ActionHelper.setValue(key, value);
 	}
-	
+
 	protected String getValue(String key) {
 		return We7ActionHelper.getValue(key);
 	}
-	
+
 	protected int getListViewIndex(final String listContentDescription) {
 
-		ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
+		ArrayList<ListView> listViews = InstrumentationBackend.solo
+				.getCurrentListViews();
 
-		InstrumentationBackend.log("Found " + listViews.size() + " list views. Looking for index for " + listContentDescription);
+		InstrumentationBackend.log("Found " + listViews.size()
+				+ " list views. Looking for index for "
+				+ listContentDescription);
 
 		for (int i = 0; i < listViews.size(); i++) {
 
-			String contentDescription = listViews.get(i).getContentDescription().toString();
+			String contentDescription = listViews.get(i)
+					.getContentDescription().toString();
 
-		 	InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
+			InstrumentationBackend.log("Content descrition for list index " + i
+					+ " = " + contentDescription);
 
-		  	if (contentDescription.equalsIgnoreCase(listContentDescription)) {
+			if (contentDescription.equalsIgnoreCase(listContentDescription)) {
 
-		  		InstrumentationBackend.log("Found list for " + listContentDescription);
+				InstrumentationBackend.log("Found list for "
+						+ listContentDescription);
 
-		        return i;
+				return i;
 
 			}
-			
+
 		}
 
 		return -1;
 
-	  }
-	
+	}
+
 	protected ListView getListView(final String tabName) {
 
-	    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
+		ArrayList<ListView> listViews = InstrumentationBackend.solo
+				.getCurrentListViews();
 
-	    InstrumentationBackend.log("Found " + listViews.size() + " list views. Looking for index for " + tabName);
+		InstrumentationBackend.log("Found " + listViews.size()
+				+ " list views. Looking for index for " + tabName);
 
-	    for (int i = 0; i < listViews.size(); i++) {
+		for (int i = 0; i < listViews.size(); i++) {
 
-	      String contentDescription = listViews.get(i).getContentDescription().toString();
+			String contentDescription;
+			if (listViews.get(i).getContentDescription() != null) {
 
-	      InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
+				contentDescription = listViews.get(i).getContentDescription().toString();
 
-	      if (contentDescription.equalsIgnoreCase(tabName)) {
+				InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
 
-	        InstrumentationBackend.log("Found list for " + tabName);
+				if (contentDescription.equalsIgnoreCase(tabName)) {
 
-	        return listViews.get(i);
+					InstrumentationBackend.log("Found list for " + tabName);
 
-	      }
+					return listViews.get(i);
 
-	    }
+				}
 
-	    return null;
+			}
 
-	  }
-	
+		}
+
+		return null;
+
+	}
+
 	protected boolean pressView(String viewId) {
-		
+
 		InstrumentationBackend.log("Clicking on " + viewId);
-		
+
 		final View view = TestHelpers.getViewById(viewId);
-		
-        if(view == null) {
-            return false;
-        }
-        
+
+		if (view == null) {
+			return false;
+		}
+
 		try {
 			InstrumentationBackend.log("Clicking on view: " + view.getClass());
 			InstrumentationBackend.log("" + view.getLeft());
@@ -101,21 +114,23 @@ public class We7Action {
 			view.getLocationOnScreen(xy);
 			InstrumentationBackend.log("" + xy[0]);
 			InstrumentationBackend.log("" + xy[1]);
-			
-			InstrumentationBackend.solo.clickOnView(view);		
-		} catch(junit.framework.AssertionFailedError e) {
-			InstrumentationBackend.log("solo.clickOnView failed - using fallback");
+
+			InstrumentationBackend.solo.clickOnView(view);
+		} catch (junit.framework.AssertionFailedError e) {
+			InstrumentationBackend
+					.log("solo.clickOnView failed - using fallback");
 			if (view.isClickable()) {
-				InstrumentationBackend.solo.getCurrentActivity().runOnUiThread(new Runnable() {
-					public void run() {
-						view.performClick();
-					}	
-				});
+				InstrumentationBackend.solo.getCurrentActivity().runOnUiThread(
+						new Runnable() {
+							public void run() {
+								view.performClick();
+							}
+						});
 			}
 		}
-		
+
 		return true;
-		
+
 	}
 
 }

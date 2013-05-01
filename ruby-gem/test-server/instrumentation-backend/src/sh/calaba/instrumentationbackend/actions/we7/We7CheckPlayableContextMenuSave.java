@@ -3,57 +3,47 @@ package sh.calaba.instrumentationbackend.actions.we7;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
-import android.widget.TextView;
+import android.widget.ListView;
 
 public class We7CheckPlayableContextMenuSave extends We7Action implements Action {
 
-	@Override
-	public Result execute(String... args) {
-		
-		String lastLongClickText = getValue(LAST_LONG_CLICK_TEXT);
+  @Override
+  public Result execute(String... args) {
 
-		if (lastLongClickText == null) {
-			return new Result(false, "No text LAST_LONG_CLICK_TEXT in cache");
-		}
+    String savedListContentDescription = args[0];
 
-		InstrumentationBackend.log("Waiting for saved item" + lastLongClickText);
-		
-		int timeout = 90 * 1000;
+    String lastLongClickText = getValue(LAST_LONG_CLICK_TEXT);
 
-		TextView lastLongClickTextView;
-		
-		long endTime = System.currentTimeMillis() + timeout;
-	    while (System.currentTimeMillis() < endTime) {
+    if (lastLongClickText == null) {
+      return new Result(false, "No text LAST_LONG_CLICK_TEXT in cache");
+    }
 
-	      lastLongClickTextView = InstrumentationBackend.solo.getText(lastLongClickText);
-	    	
-	      if (lastLongClickTextView != null) {
+    InstrumentationBackend.log("Searching for saved item" + lastLongClickText);
 
-	        InstrumentationBackend.log("Found saved item");
+    ListView savedListView = getListView(savedListContentDescription);
 
-	        return Result.successResult();
+    for (int i = 0; i < savedListView.getCount(); i++) {
 
-	      } else {
+      String contentDescription = "";
+      if (savedListView.getAdapter().getView(i, null, null).getContentDescription() != null) {
+        contentDescription = savedListView.getAdapter().getView(i, null, null).getContentDescription().toString();
+      }
 
-	        InstrumentationBackend.log("Not found saved item");
+      if (contentDescription.equalsIgnoreCase(lastLongClickText)) {
 
-	        try {
-	          Thread.sleep(500);
-	        } catch (InterruptedException e) {
-	          return Result.fromThrowable(e);
-	        }
+        return Result.successResult();
 
-	      }
+      }
 
-	    }
-		
-	    return new Result(false, "Timed out waiting for saved item");
+    }
 
-	}
+    return new Result(false, "Didn't find item with contentDescription matching " + lastLongClickText);
 
-	@Override
-	public String key() {
-		return "check_last_playable_context_menu_save";
-	}
+  }
+
+  @Override
+  public String key() {
+    return "check_last_playable_context_menu_save";
+  }
 
 }
