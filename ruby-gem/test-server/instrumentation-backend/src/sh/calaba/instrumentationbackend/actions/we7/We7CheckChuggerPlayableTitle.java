@@ -21,6 +21,10 @@ public class We7CheckChuggerPlayableTitle extends We7Action implements Action {
 			return new Result(false, "No playable title provided in args or from LAST_PLAYABLE_NAME in cache");
 		}
 		
+		playableTitle = playableTitle.split(",")[0];
+		
+		InstrumentationBackend.log("Looking for playable title " + playableTitle);
+		
 		int timeout = 90 * 1000;
 
 		TextView playableTitleTextView;
@@ -29,7 +33,6 @@ public class We7CheckChuggerPlayableTitle extends We7Action implements Action {
 	    while (System.currentTimeMillis() < endTime) {
 
 	      playableTitleTextView = InstrumentationBackend.solo.getText(playableTitle);
-	    	
 	    	
 	      if (playableTitleTextView != null) {
 

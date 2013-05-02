@@ -21,7 +21,7 @@ public class We7CheckPlayableContextMenuSave extends We7Action implements Action
     }
 
     lastLongClickText = lastLongClickText.split(",")[0];
-    
+
     InstrumentationBackend.log("Searching for saved item: " + lastLongClickText);
 
     ListView savedListView = getListView(savedListContentDescription);

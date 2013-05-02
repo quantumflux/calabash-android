@@ -22,17 +22,25 @@ public class We7PressListItemByContentDescriptions extends We7Action implements 
     if (listViewIndex == -1) {
     	return new Result(false, "Could not find list with content description " + listContentDescription);
     }
-    
     InstrumentationBackend.log("Found list with content description " + listContentDescription);
     
     ListView listView = getListView(listContentDescription);
     
+    if (listView == null) {
+      return new Result(false, "Could not retrieve list with content description " + listContentDescription);
+    }
+    InstrumentationBackend.log("Retrieved list with content description " + listContentDescription);
+    
+    InstrumentationBackend.log("Looking for " + listItemContentDescription);
+    
     for (int i = 0; i < listView.getCount(); i++) {
     	
-    	String contentDescription = "";
+    	String contentDescription = "No content description";
     	if (listView.getAdapter().getView(i, null, null).getContentDescription() != null) {
     		contentDescription = listView.getAdapter().getView(i, null, null).getContentDescription().toString();
     	}
+    	
+    	InstrumentationBackend.log("Comparing listItemContentDescription to " + contentDescription);
     	
     	if (contentDescription.equalsIgnoreCase(listItemContentDescription)) {
 
@@ -43,6 +51,8 @@ public class We7PressListItemByContentDescriptions extends We7Action implements 
     	    }
     		
     	    InstrumentationBackend.log("Clicked text = " + sb.toString());
+    	    
+    	    setValue(LAST_PLAYABLE_NAME, sb.toString());
     	    
     		return Result.successResult();
     		
