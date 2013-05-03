@@ -61,7 +61,7 @@ public class We7LongPressListItemByContentDescriptions extends We7Action impleme
 
     InstrumentationBackend.log("returning key name press_item_by_list_content_description");
 
-    return "long_press_item_by_list_content_descriptions";
+    return "long_press_list_item_by_list_content_descriptions";
   }
 
 }
