@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class We7LongPressListIndexByContentDescriptions extends We7Action implements Action {

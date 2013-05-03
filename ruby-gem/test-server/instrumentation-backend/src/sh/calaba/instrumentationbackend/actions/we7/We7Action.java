@@ -1,9 +1,12 @@
 package sh.calaba.instrumentationbackend.actions.we7;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.TestHelpers;
+import android.app.Activity;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.ListView;
@@ -14,6 +17,9 @@ public class We7Action {
 	protected static final String LAST_PLAYABLE_NAME = "lastplayablename";
 	protected static final String LAST_LONG_CLICK_TEXT = "lastlongclicktext";
 
+	// This MUST be the same value as set in com.we7.player.ui.fragment.We7Fragment.CONTENT_AVAILABILITY_KEY
+	public static final Integer CONTENT_AVAILABILITY_KEY = 100;
+	
 	public We7Action() {
 
 		StrictMode.enableDefaults();
@@ -133,4 +139,46 @@ public class We7Action {
 
 	}
 
+	protected Integer getTestViewTagId() {
+	  
+	  Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
+    Integer testTagArrayId = null;
+    
+    InstrumentationBackend.log("currentActivity class = " + currentActivity.getClass().toString());
+    
+    try {
+      Method method = currentActivity.getClass().getMethod("getTestItemsTagId");
+      testTagArrayId = (Integer) method.invoke(null);
+    } catch (SecurityException se) {
+      // TODO Auto-generated catch block
+      se.printStackTrace();
+      InstrumentationBackend.log("se thrown " + se.getMessage());
+    } catch (NoSuchMethodException nsme) {
+      // TODO Auto-generated catch block
+      nsme.printStackTrace();
+      InstrumentationBackend.log("nsmee thrown " + nsme.getMessage());
+    } catch (IllegalArgumentException iarge) {
+      // TODO Auto-generated catch block
+      iarge.printStackTrace();
+      InstrumentationBackend.log("iarge thrown " + iarge.getMessage());
+    } catch (IllegalAccessException iacce) {
+      // TODO Auto-generated catch block
+      iacce.printStackTrace();
+      InstrumentationBackend.log("iacce thrown " + iacce.getMessage());
+    } catch (InvocationTargetException ite) {
+      // TODO Auto-generated catch block
+      ite.printStackTrace();
+      InstrumentationBackend.log("ite thrown " + ite.getMessage());
+    }
+    
+    if (testTagArrayId == null) {
+      return -1;
+    }
+    
+    InstrumentationBackend.log("Retireved testTagArrayId = " + testTagArrayId);
+    
+	  return testTagArrayId;
+	  
+	}
+	
 }
