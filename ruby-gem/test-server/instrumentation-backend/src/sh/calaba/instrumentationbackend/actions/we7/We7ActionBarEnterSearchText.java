@@ -28,6 +28,7 @@ public class We7ActionBarEnterSearchText extends We7Action implements Action {
 			}
 			
 			InstrumentationBackend.log("Entering search text " + args[0]);
+			InstrumentationBackend.solo.clearEditText(0);
 			InstrumentationBackend.solo.enterText(0, args[0]);
 			
 			InstrumentationBackend.log("Done");

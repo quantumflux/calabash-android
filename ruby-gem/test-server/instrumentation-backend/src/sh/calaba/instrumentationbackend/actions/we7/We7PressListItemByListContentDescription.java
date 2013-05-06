@@ -36,7 +36,7 @@ public class We7PressListItemByListContentDescription extends We7Action implemen
       
       if (tv.getContentDescription()!= null && tv.getContentDescription().toString().equals("song title")){
     	  InstrumentationBackend.log("Found song title TextView");
-    	  setValue(LAST_TRACK_NAME, tv.getText().toString());
+    	  setValue(LAST_CLICK_TEXT, tv.getText().toString());
       }
       
       sb.append(tv.getText() + ",");

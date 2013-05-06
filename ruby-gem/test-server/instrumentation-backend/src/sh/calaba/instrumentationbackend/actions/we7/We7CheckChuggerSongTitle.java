@@ -14,8 +14,10 @@ public class We7CheckChuggerSongTitle extends We7Action implements Action {
 		if (args.length > 0) {
 			songTitle = args[0];
 		} else {
-			songTitle = getValue(LAST_TRACK_NAME);
+			songTitle = getValue(LAST_CLICK_TEXT);
 		}
+		
+		songTitle = songTitle.split(",")[0];
 		
 		if (songTitle == null) {
 			return new Result(false, "No song title provided in args or from LAST_TRACK_NAME in cache");

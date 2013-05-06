@@ -13,8 +13,7 @@ import android.widget.ListView;
 
 public class We7Action {
 
-	protected static final String LAST_TRACK_NAME = "lasttrackname";
-	protected static final String LAST_PLAYABLE_NAME = "lastplayablename";
+	protected static final String LAST_CLICK_TEXT = "lastclicktext";
 	protected static final String LAST_LONG_CLICK_TEXT = "lastlongclicktext";
 
 	// This MUST be the same value as set in com.we7.player.ui.fragment.We7Fragment.CONTENT_AVAILABILITY_KEY

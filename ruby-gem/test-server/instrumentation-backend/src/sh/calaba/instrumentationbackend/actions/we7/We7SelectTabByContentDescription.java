@@ -8,19 +8,12 @@ import sh.calaba.instrumentationbackend.actions.Action;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-public class We7SelectItemFromTabList extends We7Action implements Action {
+public class We7SelectTabByContentDescription extends We7Action implements Action {
 
   @Override
   public Result execute(final String... args) {
 
     String tabName = args[0];
-
-    int itemIndex = 1;
-    if (args.length > 1) {
-
-      itemIndex = Integer.parseInt(args[1]);
-
-    }
 
     TabHost tabHost = (TabHost) InstrumentationBackend.solo.getView(TabHost.class, 0);
 
@@ -31,6 +24,18 @@ public class We7SelectItemFromTabList extends We7Action implements Action {
 
     InstrumentationBackend.log("Tab host found");
 
+    int numberOfTabs = tabHost.getTabWidget().getTabCount();
+    
+    
+    for (int i = 0; i < numberOfTabs; i++) {
+      
+      tabHost.setCurrentTab(i);
+      
+      tabHost.getCurrentTabView().getContentDescription()
+      
+    }
+    
+    
     // goto tab
     InstrumentationBackend.solo.clickOnText(tabName);
 

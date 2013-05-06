@@ -14,11 +14,11 @@ public class We7CheckChuggerPlayableTitle extends We7Action implements Action {
 		if (args.length > 0) {
 			playableTitle = args[0];
 		} else {
-			playableTitle = getValue(LAST_PLAYABLE_NAME);
+			playableTitle = getValue(LAST_CLICK_TEXT);
 		}
 		
 		if (playableTitle == null) {
-			return new Result(false, "No playable title provided in args or from LAST_PLAYABLE_NAME in cache");
+			return new Result(false, "No playable title provided in args or from LAST_CLICK_TEXT in cache");
 		}
 		
 		playableTitle = playableTitle.split(",")[0];
