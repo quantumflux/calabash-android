@@ -1,12 +1,10 @@
 package sh.calaba.instrumentationbackend.actions.we7;
 
-import java.util.ArrayList;
-
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
+import android.view.View;
 import android.widget.TabHost;
-import android.widget.TextView;
 
 public class We7SelectTabByContentDescription extends We7Action implements Action {
 
@@ -19,55 +17,67 @@ public class We7SelectTabByContentDescription extends We7Action implements Actio
 
     if (tabHost == null) {
       InstrumentationBackend.log("No tab host found");
-      return new Result(false, "No TabHost found - am I on All Stations page?");
+      return new Result(false, "No TabHost found - am I on a tabbed page?");
     }
 
     InstrumentationBackend.log("Tab host found");
 
     int numberOfTabs = tabHost.getTabWidget().getTabCount();
-    
-    
+
+    InstrumentationBackend.log("Looking for tab with content description " + tabName);
+
     for (int i = 0; i < numberOfTabs; i++) {
-      
-      tabHost.setCurrentTab(i);
-      
-      tabHost.getCurrentTabView().getContentDescription()
-      
-    }
-    
-    
-    // goto tab
-    InstrumentationBackend.solo.clickOnText(tabName);
 
-    int listIndex = getListViewIndex(tabName);
+      final View tabView = tabHost.getTabWidget().getChildTabViewAt(i);
 
-    if (listIndex == -1) {
-      return new Result(false, "Could not find list.");
-    }
+      if (tabView.getContentDescription() != null) {
 
-    ArrayList<TextView> itemText = InstrumentationBackend.solo.clickInList(itemIndex, listIndex);
+        InstrumentationBackend.log("Comparing to content description " + tabView.getContentDescription().toString() + " at index " + i);
 
-    InstrumentationBackend.log("Text of clicked item:");
-    for (int i = 0 ; i < itemText.size(); i++) {
-    	
-      TextView tv = itemText.get(i);
-    	
-      if (tv.getContentDescription()!= null && tv.getContentDescription().toString().equals("playable title")){
-          InstrumentationBackend.log("Found playable title TextView");
-       	  setValue(LAST_CLICK_TEXT, tv.getText().toString());
+        if (tabView.getContentDescription().toString().equals(tabName)) {
+
+          InstrumentationBackend.log("Found " + tabName);
+          try {
+            
+            InstrumentationBackend.log("Trying click on view...");
+            InstrumentationBackend.solo.clickOnView(tabView);
+            
+          } catch (junit.framework.AssertionFailedError e) {
+            
+            InstrumentationBackend.log("solo.clickOnView failed - using fallback");
+            if (tabView.isClickable()) {
+              
+              InstrumentationBackend.solo.getCurrentActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                  
+                  tabView.performClick();
+                  
+                }
+                
+              });
+              
+            }
+          }
+
+          return new Result(true);
+          
+        }
+
+      } else {
+        
+        InstrumentationBackend.log("No tab contentDescription at index " + i);
+        
       }
-    	
-      InstrumentationBackend.log(itemText.get(i).getText().toString());
-      
+
     }
 
-    return new Result(true);
+    return new Result(false, "Unable to find tab " + tabName);
 
   }
 
   @Override
   public String key() {
-    return "select_item_from_tab_list";
+    return "select_tab_by_content_description";
   }
 
 }

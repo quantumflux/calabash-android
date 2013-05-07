@@ -78,7 +78,7 @@ public class We7Action {
 			String contentDescription;
 			if (listViews.get(i).getContentDescription() != null) {
 
-				contentDescription = listViews.get(i).getContentDescription().toString();
+				contentDescription = listViews.get(i).getContentDescription().toString().replaceAll("\n", " ");
 
 				InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
 

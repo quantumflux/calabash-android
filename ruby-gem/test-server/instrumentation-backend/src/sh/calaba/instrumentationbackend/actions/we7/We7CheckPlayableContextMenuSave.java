@@ -26,6 +26,10 @@ public class We7CheckPlayableContextMenuSave extends We7Action implements Action
 
     ListView savedListView = getListView(savedListContentDescription);
 
+    if (savedListView == null) {
+      return new Result(false, "Could not find list view with contentDescription " + savedListContentDescription);
+    }
+    
     for (int i = 0; i < savedListView.getCount(); i++) {
 
       for (int j = 0; j < savedListView.getChildCount(); j++) {
