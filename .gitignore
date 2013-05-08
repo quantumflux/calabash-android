@@ -6,6 +6,7 @@ instrumentation_backend/assets/foo.bar
 *.png
 *.swp
 **/.DS_STORE
+.DS_Store
 ruby-gem/pkg
 ruby-gem/lib/calabash-android/lib/TestServer.apk
 .rbenv-version
