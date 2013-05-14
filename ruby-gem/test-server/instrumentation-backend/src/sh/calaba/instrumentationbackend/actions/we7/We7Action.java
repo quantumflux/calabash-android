@@ -208,7 +208,7 @@ public class We7Action {
   }
   
   protected static boolean isEmulator() {
-    return org.apache.commons.lang3.ArrayUtils.contains(new String[] { "google_sdk", "sdk_x86", "sdk", "full_x86" }, Build.PRODUCT);
+    return false;
   }
   
   protected int getOsVersion() {
