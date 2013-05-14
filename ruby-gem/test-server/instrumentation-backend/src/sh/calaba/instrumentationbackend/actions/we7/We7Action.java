@@ -7,144 +7,137 @@ import java.util.ArrayList;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.TestHelpers;
 import android.app.Activity;
+import android.os.Build;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.ListView;
 
 public class We7Action {
 
-	protected static final String LAST_CLICK_TEXT = "lastclicktext";
-	protected static final String LAST_LONG_CLICK_TEXT = "lastlongclicktext";
+  protected static final String LAST_CLICK_TEXT = "lastclicktext";
+  protected static final String LAST_LONG_CLICK_TEXT = "lastlongclicktext";
 
-	// This MUST be the same value as set in com.we7.player.ui.fragment.We7Fragment.CONTENT_AVAILABILITY_KEY
-	public static final Integer CONTENT_AVAILABILITY_KEY = 100;
-	
-	public We7Action() {
+  // This MUST be the same value as set in com.we7.player.ui.fragment.We7Fragment.CONTENT_AVAILABILITY_KEY
+  public static final Integer CONTENT_AVAILABILITY_KEY = 100;
 
-		StrictMode.enableDefaults();
+  public We7Action() {
 
-	}
+    StrictMode.enableDefaults();
 
-	protected void setValue(String key, String value) {
-		We7ActionHelper.setValue(key, value);
-	}
+  }
 
-	protected String getValue(String key) {
-		return We7ActionHelper.getValue(key);
-	}
+  protected void setValue(String key, String value) {
+    We7ActionHelper.setValue(key, value);
+  }
 
-	protected int getListViewIndex(final String listContentDescription) {
+  protected String getValue(String key) {
+    return We7ActionHelper.getValue(key);
+  }
 
-		ArrayList<ListView> listViews = InstrumentationBackend.solo
-				.getCurrentListViews();
+  protected int getListViewIndex(final String listContentDescription) {
 
-		InstrumentationBackend.log("Found " + listViews.size()
-				+ " list views. Looking for index for "
-				+ listContentDescription);
+    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
 
-		for (int i = 0; i < listViews.size(); i++) {
+    InstrumentationBackend.log("Found " + listViews.size() + " list views. Looking for index for " + listContentDescription);
 
-			String contentDescription = listViews.get(i)
-					.getContentDescription().toString();
+    for (int i = 0; i < listViews.size(); i++) {
 
-			InstrumentationBackend.log("Content descrition for list index " + i
-					+ " = " + contentDescription);
+      String contentDescription = listViews.get(i).getContentDescription().toString();
 
-			if (contentDescription.equalsIgnoreCase(listContentDescription)) {
+      InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
 
-				InstrumentationBackend.log("Found list for "
-						+ listContentDescription);
+      if (contentDescription.equalsIgnoreCase(listContentDescription)) {
 
-				return i;
+        InstrumentationBackend.log("Found list for " + listContentDescription);
 
-			}
+        return i;
 
-		}
+      }
 
-		return -1;
+    }
 
-	}
+    return -1;
 
-	protected ListView getListView(final String tabName) {
+  }
 
-		ArrayList<ListView> listViews = InstrumentationBackend.solo
-				.getCurrentListViews();
+  protected ListView getListView(final String tabName) {
 
-		InstrumentationBackend.log("Found " + listViews.size()
-				+ " list views. Looking for index for " + tabName);
+    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
 
-		for (int i = 0; i < listViews.size(); i++) {
+    InstrumentationBackend.log("Found " + listViews.size() + " list views. Looking for index for " + tabName);
 
-			String contentDescription;
-			if (listViews.get(i).getContentDescription() != null) {
+    for (int i = 0; i < listViews.size(); i++) {
 
-				contentDescription = listViews.get(i).getContentDescription().toString().replaceAll("\n", " ");
+      String contentDescription;
+      if (listViews.get(i).getContentDescription() != null) {
 
-				InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
+        contentDescription = listViews.get(i).getContentDescription().toString().replaceAll("\n", " ");
 
-				if (contentDescription.equalsIgnoreCase(tabName)) {
+        InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
 
-					InstrumentationBackend.log("Found list for " + tabName);
+        if (contentDescription.equalsIgnoreCase(tabName)) {
 
-					return listViews.get(i);
+          InstrumentationBackend.log("Found list for " + tabName);
 
-				}
+          return listViews.get(i);
 
-			}
+        }
 
-		}
+      }
 
-		return null;
+    }
 
-	}
+    return null;
 
-	protected boolean pressView(String viewId) {
+  }
 
-		InstrumentationBackend.log("Clicking on " + viewId);
+  protected boolean pressView(String viewId) {
 
-		final View view = TestHelpers.getViewById(viewId);
+    InstrumentationBackend.log("Clicking on " + viewId);
 
-		if (view == null) {
-			return false;
-		}
+    final View view = TestHelpers.getViewById(viewId);
 
-		try {
-			InstrumentationBackend.log("Clicking on view: " + view.getClass());
-			InstrumentationBackend.log("" + view.getLeft());
-			InstrumentationBackend.log("" + view.getTop());
-			InstrumentationBackend.log("" + view.getWidth());
-			InstrumentationBackend.log("" + view.getHeight());
-			int[] xy = new int[2];
+    if (view == null) {
+      return false;
+    }
 
-			view.getLocationOnScreen(xy);
-			InstrumentationBackend.log("" + xy[0]);
-			InstrumentationBackend.log("" + xy[1]);
+    try {
+      InstrumentationBackend.log("Clicking on view: " + view.getClass());
+      InstrumentationBackend.log("" + view.getLeft());
+      InstrumentationBackend.log("" + view.getTop());
+      InstrumentationBackend.log("" + view.getWidth());
+      InstrumentationBackend.log("" + view.getHeight());
+      int[] xy = new int[2];
 
-			InstrumentationBackend.solo.clickOnView(view);
-		} catch (junit.framework.AssertionFailedError e) {
-			InstrumentationBackend
-					.log("solo.clickOnView failed - using fallback");
-			if (view.isClickable()) {
-				InstrumentationBackend.solo.getCurrentActivity().runOnUiThread(
-						new Runnable() {
-							public void run() {
-								view.performClick();
-							}
-						});
-			}
-		}
+      view.getLocationOnScreen(xy);
+      InstrumentationBackend.log("" + xy[0]);
+      InstrumentationBackend.log("" + xy[1]);
 
-		return true;
+      InstrumentationBackend.solo.clickOnView(view);
+    } catch (junit.framework.AssertionFailedError e) {
+      InstrumentationBackend.log("solo.clickOnView failed - using fallback");
+      if (view.isClickable()) {
+        InstrumentationBackend.solo.getCurrentActivity().runOnUiThread(new Runnable() {
+          public void run() {
+            view.performClick();
+          }
+        });
+      }
+    }
 
-	}
+    return true;
 
-	protected Integer getTestViewTagId() {
-	  
-	  Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
+  }
+
+
+  
+  protected Integer getTestViewTagId() {
+
+    Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
     Integer testTagArrayId = null;
-    
+
     InstrumentationBackend.log("currentActivity class = " + currentActivity.getClass().toString());
-    
+
     try {
       Method method = currentActivity.getClass().getMethod("getTestItemsTagId");
       testTagArrayId = (Integer) method.invoke(null);
@@ -169,15 +162,77 @@ public class We7Action {
       ite.printStackTrace();
       InstrumentationBackend.log("ite thrown " + ite.getMessage());
     }
-    
+
     if (testTagArrayId == null) {
       return -1;
     }
-    
+
     InstrumentationBackend.log("Retireved testTagArrayId = " + testTagArrayId);
-    
-	  return testTagArrayId;
-	  
-	}
-	
+
+    return testTagArrayId;
+
+  }
+
+  protected boolean set3gForEmulator() {
+
+    Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
+
+    InstrumentationBackend.log("currentActivity class = " + currentActivity.getClass().toString());
+
+    try {
+      Method method = currentActivity.getClass().getMethod("setEnable3gForEmulator");
+      method.invoke(currentActivity);
+      return true;
+    } catch (SecurityException se) {
+      se.printStackTrace();
+      InstrumentationBackend.log("se thrown " + se.getMessage());
+    } catch (NoSuchMethodException nsme) {
+      nsme.printStackTrace();
+      InstrumentationBackend.log("nsmee thrown " + nsme.getMessage());
+    } catch (IllegalArgumentException iarge) {
+      iarge.printStackTrace();
+      InstrumentationBackend.log("iarge thrown " + iarge.getMessage());
+    } catch (IllegalAccessException iacce) {
+      iacce.printStackTrace();
+      InstrumentationBackend.log("iacce thrown " + iacce.getMessage());
+    } catch (InvocationTargetException ite) {
+      ite.printStackTrace();
+      InstrumentationBackend.log("ite thrown " + ite.getMessage());
+    } catch (IllegalStateException ise) {
+      ise.printStackTrace();
+      InstrumentationBackend.log("ise thrown " + ise.getMessage());
+    }
+
+    return false;
+
+  }
+  
+  protected static boolean isEmulator() {
+    return org.apache.commons.lang3.ArrayUtils.contains(new String[] { "google_sdk", "sdk_x86", "sdk", "full_x86" }, Build.PRODUCT);
+  }
+  
+  protected int getOsVersion() {
+    return android.os.Build.VERSION.SDK_INT;
+  }
+
+  protected boolean isGingerbread() {
+    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB);
+  }
+
+  protected boolean isHoneycomb() {
+    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH);
+  }
+  
+  protected boolean isICS() {
+    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR1);
+  }
+  
+  protected boolean isJellybean() {
+    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN);
+  }
+  
+  protected boolean isLaterThanGingerbread() {
+    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB);
+  }
+  
 }
