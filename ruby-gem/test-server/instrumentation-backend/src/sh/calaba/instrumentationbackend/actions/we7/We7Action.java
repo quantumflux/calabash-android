@@ -173,6 +173,39 @@ public class We7Action {
 
   }
 
+  protected Boolean isRunningOnEmulator() {
+
+    Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
+
+    InstrumentationBackend.log("currentActivity class = " + currentActivity.getClass().toString());
+
+    try {
+      Method method = currentActivity.getClass().getMethod("isRunningOnEmulator");
+      return (Boolean) method.invoke(null);
+    } catch (SecurityException se) {
+      se.printStackTrace();
+      InstrumentationBackend.log("se thrown " + se.getMessage());
+    } catch (NoSuchMethodException nsme) {
+      nsme.printStackTrace();
+      InstrumentationBackend.log("nsmee thrown " + nsme.getMessage());
+    } catch (IllegalArgumentException iarge) {
+      iarge.printStackTrace();
+      InstrumentationBackend.log("iarge thrown " + iarge.getMessage());
+    } catch (IllegalAccessException iacce) {
+      iacce.printStackTrace();
+      InstrumentationBackend.log("iacce thrown " + iacce.getMessage());
+    } catch (InvocationTargetException ite) {
+      ite.printStackTrace();
+      InstrumentationBackend.log("ite thrown " + ite.getMessage());
+    } catch (IllegalStateException ise) {
+      ise.printStackTrace();
+      InstrumentationBackend.log("ise thrown " + ise.getMessage());
+    }
+
+    return null;
+  }
+  
+  
   protected boolean set3gForEmulator() {
 
     Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
@@ -205,10 +238,6 @@ public class We7Action {
 
     return false;
 
-  }
-  
-  protected static boolean isEmulator() {
-    return false;
   }
   
   protected int getOsVersion() {
