@@ -1,10 +1,12 @@
-package sh.calaba.instrumentationbackend.actions.we7;
+package sh.calaba.instrumentationbackend.actions.we7.list;
 
 import java.util.ArrayList;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
+import sh.calaba.instrumentationbackend.actions.we7.We7Action;
+import sh.calaba.instrumentationbackend.actions.we7.actionbar.We7ActionHelper;
 import android.widget.TextView;
 
 public class We7LongPressListIndexByContentDescriptions extends We7Action implements Action {

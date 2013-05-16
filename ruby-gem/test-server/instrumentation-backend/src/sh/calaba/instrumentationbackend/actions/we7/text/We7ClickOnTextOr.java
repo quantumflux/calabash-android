@@ -1,4 +1,4 @@
-package sh.calaba.instrumentationbackend.actions.we7;
+package sh.calaba.instrumentationbackend.actions.we7.text;
 
 
 import java.util.ArrayList;
@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
+import sh.calaba.instrumentationbackend.actions.we7.We7Action;
 
 
-public class We7AssertTextOr extends We7Action implements Action{
+public class We7ClickOnTextOr extends We7Action implements Action {
 
     @Override
     public Result execute(String... args) {
-        
+    	
     	ArrayList<String> textToOr = new ArrayList<String>();
     	String textList = "";
     	for (int i = 0; i < args.length; i++) {
@@ -21,22 +22,23 @@ public class We7AssertTextOr extends We7Action implements Action{
     		textList += args[i] + ",";
     		
     	}
-
-        for (String text: textToOr) {
+    	
+    	for (String text: textToOr) {
         	
         	if (InstrumentationBackend.solo.searchText(text, true)) {
-        		return new Result(true, "Text '" + text + "' was found");
+        		InstrumentationBackend.solo.clickOnText(text);
+        		return new Result(true, "Clicked on " + text);
         	}
         	
         }
-        
-        return new Result(false, "None of: " + textList + "' were found");
+    	
+    	return new Result(false, "Unable to find any of " + textList);
 
     }
 
     @Override
     public String key() {
-        return "assert_text_or";
+        return "click_on_text_or";
     }
 
 }
