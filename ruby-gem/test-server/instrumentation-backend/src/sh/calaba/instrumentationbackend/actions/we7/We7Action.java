@@ -173,15 +173,11 @@ public class We7Action {
 
   }
 
-  protected Boolean isRunningOnEmulator() {
-
-    Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
-
-    InstrumentationBackend.log("currentActivity class = " + currentActivity.getClass().toString());
-
+  private Method getMethod(Class<?> targetClass, String methodName) {
+    
     try {
-      Method method = currentActivity.getClass().getMethod("isRunningOnEmulator");
-      return (Boolean) method.invoke(null);
+      Method method = targetClass.getMethod(methodName);
+      return method;
     } catch (SecurityException se) {
       se.printStackTrace();
       InstrumentationBackend.log("se thrown " + se.getMessage());
@@ -191,18 +187,66 @@ public class We7Action {
     } catch (IllegalArgumentException iarge) {
       iarge.printStackTrace();
       InstrumentationBackend.log("iarge thrown " + iarge.getMessage());
+    } catch (IllegalStateException ise) {
+      ise.printStackTrace();
+      InstrumentationBackend.log("ise thrown " + ise.getMessage());
+    }
+    
+    return null;
+    
+  }
+  
+  private Object invokeMethod(Method method, Object reciever) {
+    
+    return invokeMethod(method, reciever, (Object[]) null);
+      
+  }
+    
+  private Object invokeMethod(Method method, Object reciever, Object... args) {
+    
+    try {
+      return method.invoke(reciever);
+    } catch (IllegalArgumentException iarge) {
+      iarge.printStackTrace();
+      InstrumentationBackend.log("iarge thrown " + iarge.getMessage());
     } catch (IllegalAccessException iacce) {
       iacce.printStackTrace();
       InstrumentationBackend.log("iacce thrown " + iacce.getMessage());
     } catch (InvocationTargetException ite) {
       ite.printStackTrace();
       InstrumentationBackend.log("ite thrown " + ite.getMessage());
-    } catch (IllegalStateException ise) {
-      ise.printStackTrace();
-      InstrumentationBackend.log("ise thrown " + ise.getMessage());
     }
-
+    
     return null;
+    
+  }
+  
+  private Activity getCurrentActivity() {
+    
+    Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
+    InstrumentationBackend.log("currentActivity class = " + currentActivity.getClass().toString());
+    return currentActivity;
+    
+  }
+  
+  protected Boolean isRunningOnTwoPane() {
+    
+    Activity currentActivity = getCurrentActivity();
+    Method method = getMethod(currentActivity.getClass(), "isRunningOnTwoPane");
+    Boolean isOnTwoPane = (Boolean) invokeMethod(method, currentActivity);
+    InstrumentationBackend.log("isRunningOnTwoPane = " + isOnTwoPane.toString());
+    return isOnTwoPane;
+    
+  }
+  
+  protected Boolean isRunningOnEmulator() {
+
+    Activity currentActivity = getCurrentActivity();
+    Method method = getMethod(currentActivity.getClass(), "isRunningOnEmulator");
+    Boolean isEmulator = (Boolean) invokeMethod(method, null);
+    InstrumentationBackend.log("isRunningOnEmulator = " + isEmulator.toString());
+    return isEmulator;
+    
   }
   
   

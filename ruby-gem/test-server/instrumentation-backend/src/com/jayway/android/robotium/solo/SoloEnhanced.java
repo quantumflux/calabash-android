@@ -9,17 +9,28 @@ import sh.calaba.instrumentationbackend.TestHelpers;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class SoloEnhanced extends Solo {
+  
+  protected ClickerEnhanced clickerEnhanced;
+  protected WaiterEnhanced waiterEnhanced;
+  protected SearcherEnhanced searcherEnhanced;
+  
 	// private Pincher pincher;
 	private MapViewUtils mapViewUtils;
 
 	public SoloEnhanced(Instrumentation instrumentation, Activity activity) {
 		super(instrumentation, activity);
-		this.mapViewUtils = new MapViewUtils(instrumentation, viewFetcher,
-				sleeper, waiter);
+		this.mapViewUtils = new MapViewUtils(instrumentation, viewFetcher, sleeper, waiter);
+		
+		this.clickerEnhanced = new ClickerEnhanced(activityUtils, viewFetcher, scroller,robotiumUtils, instrumentation, sleeper, waiter); 
+		this.searcherEnhanced = new SearcherEnhanced(viewFetcher, scroller, sleeper);
+		this.waiterEnhanced = new WaiterEnhanced(activityUtils, viewFetcher, this.searcherEnhanced, scroller, sleeper);
+		
 		// this.pincher = new Pincher(instrumentation, viewFetcher);
 	}
 
@@ -218,4 +229,42 @@ public class SoloEnhanced extends Solo {
 	// }
 	// }
 
+	/**
+	 * Attempts a click only within the hierarchy of the view specified
+	 * 
+	 * @param view
+	 * @param text
+	 */
+	public void clickOnTextInView(View view, String text) {
+	  
+	  clickerEnhanced.clickOnTextInView(view, text, false, 1, true, 0);
+	  
+	}
+	
+	/**
+   * Attempts a long click only within the hierarchy of the view specified
+   * 
+   * @param view
+   * @param text
+   */
+  public void longClickOnTextInView(View view, String text) {
+    
+    clickerEnhanced.clickOnTextInView(view, text, true, 1, true, 0);
+    
+  }
+	
+	/**
+	 * Waits for text to appear only within the hierarchy of the view specified
+	 * 
+	 * @param view
+	 * @param text
+	 * @param matches
+	 * @param timeout
+	 */
+	public boolean waitForTextInView(View view, String text, int matches, Long timeout) {
+    
+	  return waiterEnhanced.waitForTextInView(view, text, matches, timeout, true, true);
+    
+  }
+	
 }
