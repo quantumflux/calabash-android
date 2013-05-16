@@ -8,7 +8,6 @@ import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.we7.actionbar.We7ActionHelper;
 import android.app.Activity;
-import android.os.Build;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.ListView;

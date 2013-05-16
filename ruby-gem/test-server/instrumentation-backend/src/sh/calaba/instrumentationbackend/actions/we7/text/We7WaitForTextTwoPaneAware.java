@@ -13,24 +13,24 @@ public class We7WaitForTextTwoPaneAware extends We7Action implements Action {
   public Result execute(String... args) {
     String text = args[0];
     
-    long timeout = 90 * 1000;
+    String target = null;
     if (args.length > 1) {
+      target = args[1];
+    }
+    
+    long timeout = 90 * 1000;
+    if (args.length > 2) {
       try {
         // the argument is in seconds but robotium takes milliseconds
-        timeout = 1000 * Long.parseLong(args[1]);
+        timeout = 1000 * Long.parseLong(args[2]);
       } catch (NumberFormatException e) {
         return new Result(false, "Invalid timeout supplied. Should be an long."); 
       }
     }
     
-    String target = null;
-    if (args.length > 2) {
-      target = args[2];
-    }
+    InstrumentationBackend.log("Waiting for text " + text + " on target " + target + " timeout = " + timeout);
     
-    InstrumentationBackend.log("Waiting for text " + text + " on target " + target);
-    
-    if (target != null && !target.equalsIgnoreCase("anywhere") && isRunningOnTwoPane()) {
+    if (isRunningOnTwoPane() && target != null && !target.equalsIgnoreCase("anywhere")) {
       
       InstrumentationBackend.log("Targeting specific pane"); 
       
@@ -44,7 +44,7 @@ public class We7WaitForTextTwoPaneAware extends We7Action implements Action {
         return new Result(false, "Unrecognised target pane: " + target);
       }
 
-      InstrumentationBackend.log("Pane targeted = " + pane.toString()); 
+      InstrumentationBackend.log("Pane targeted = " + pane.toString() + ". Waiting..."); 
 
       boolean timedOut = !InstrumentationBackend.solo.waitForTextInView(pane, args[0], 1, timeout);
       if(timedOut) {
@@ -55,6 +55,8 @@ public class We7WaitForTextTwoPaneAware extends We7Action implements Action {
       
     } else {
       
+      InstrumentationBackend.log("No target specified. Waiting..."); 
+
       boolean timedOut = !InstrumentationBackend.solo.waitForText(args[0], 1, timeout);
       if(timedOut) {
           return new Result(false, "Time out while waiting for text:" + args[0]);
