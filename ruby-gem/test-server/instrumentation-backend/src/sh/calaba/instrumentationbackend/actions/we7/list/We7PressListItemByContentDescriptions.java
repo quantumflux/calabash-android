@@ -1,10 +1,11 @@
-package sh.calaba.instrumentationbackend.actions.we7;
+package sh.calaba.instrumentationbackend.actions.we7.list;
 
 import java.util.ArrayList;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
+import sh.calaba.instrumentationbackend.actions.we7.We7Action;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;

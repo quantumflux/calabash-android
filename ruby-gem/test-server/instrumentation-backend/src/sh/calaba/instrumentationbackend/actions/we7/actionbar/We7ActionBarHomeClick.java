@@ -1,10 +1,11 @@
-package sh.calaba.instrumentationbackend.actions.we7;
+package sh.calaba.instrumentationbackend.actions.we7.actionbar;
 
 import android.view.View;
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.Action;
+import sh.calaba.instrumentationbackend.actions.we7.We7Action;
 
 public class We7ActionBarHomeClick extends We7Action implements Action {
 

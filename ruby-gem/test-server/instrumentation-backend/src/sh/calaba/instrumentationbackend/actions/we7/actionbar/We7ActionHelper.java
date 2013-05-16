@@ -1,4 +1,4 @@
-package sh.calaba.instrumentationbackend.actions.we7;
+package sh.calaba.instrumentationbackend.actions.we7.actionbar;
 
 import java.util.HashMap;
 
