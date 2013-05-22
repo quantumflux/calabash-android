@@ -1,17 +1,11 @@
 package sh.calaba.instrumentationbackend;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -57,6 +51,23 @@ public class TestHelpers {
         return (ViewType) theView;
     }
 
+    public static String getViewIdName(View v) {
+      
+      InstrumentationBackend.log("Getting view id name for " + v.toString());
+      
+      String idName;
+      try {
+        idName = InstrumentationBackend.solo.getCurrentActivity().getResources().getResourceEntryName(v.getId());
+      } catch (Resources.NotFoundException rnfe) {
+        InstrumentationBackend.log("Resources.NotFoundException " + rnfe.getMessage());
+        rnfe.printStackTrace();
+        idName = "resource not found";
+      }
+      
+      return idName;
+      
+    }
+    
     public static View getViewById(String resName) {
         int id = InstrumentationBackend.solo.getCurrentActivity().getResources().getIdentifier(resName, "id", InstrumentationBackend.solo.getCurrentActivity().getPackageName());
         if (id == 0) {
