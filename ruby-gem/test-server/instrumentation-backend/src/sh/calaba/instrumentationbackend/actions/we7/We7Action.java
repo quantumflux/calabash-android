@@ -102,27 +102,25 @@ public class We7Action {
     }
 
     try {
+      
       InstrumentationBackend.log("Clicking on view: " + view.getClass());
-      InstrumentationBackend.log("" + view.getLeft());
-      InstrumentationBackend.log("" + view.getTop());
-      InstrumentationBackend.log("" + view.getWidth());
-      InstrumentationBackend.log("" + view.getHeight());
-      int[] xy = new int[2];
-
-      view.getLocationOnScreen(xy);
-      InstrumentationBackend.log("" + xy[0]);
-      InstrumentationBackend.log("" + xy[1]);
-
       InstrumentationBackend.solo.clickOnView(view);
+      
     } catch (junit.framework.AssertionFailedError e) {
+      
       InstrumentationBackend.log("solo.clickOnView failed - using fallback");
       if (view.isClickable()) {
+        
         InstrumentationBackend.solo.getCurrentActivity().runOnUiThread(new Runnable() {
+          
           public void run() {
             view.performClick();
           }
+          
         });
+        
       }
+      
     }
 
     return true;
@@ -196,12 +194,38 @@ public class We7Action {
     
   }
   
+  private boolean invokeVoidMethod(Method method, Object reciever) {
+    
+    return invokeVoidMethod(method, reciever, (Object[]) null);
+      
+  }
+  
   private Object invokeMethod(Method method, Object reciever) {
     
     return invokeMethod(method, reciever, (Object[]) null);
       
   }
     
+  private boolean invokeVoidMethod(Method method, Object reciever, Object... args) {
+    
+    try {
+      method.invoke(reciever);
+      return true;
+    } catch (IllegalArgumentException iarge) {
+      iarge.printStackTrace();
+      InstrumentationBackend.log("iarge thrown " + iarge.getMessage());
+    } catch (IllegalAccessException iacce) {
+      iacce.printStackTrace();
+      InstrumentationBackend.log("iacce thrown " + iacce.getMessage());
+    } catch (InvocationTargetException ite) {
+      ite.printStackTrace();
+      InstrumentationBackend.log("ite thrown " + ite.getMessage());
+    }
+    
+    return false;
+    
+  }
+  
   private Object invokeMethod(Method method, Object reciever, Object... args) {
     
     try {
@@ -252,36 +276,12 @@ public class We7Action {
   
   protected boolean set3gForEmulator() {
 
-    Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
-
-    InstrumentationBackend.log("currentActivity class = " + currentActivity.getClass().toString());
-
-    try {
-      Method method = currentActivity.getClass().getMethod("setEnable3gForEmulator");
-      method.invoke(currentActivity);
-      return true;
-    } catch (SecurityException se) {
-      se.printStackTrace();
-      InstrumentationBackend.log("se thrown " + se.getMessage());
-    } catch (NoSuchMethodException nsme) {
-      nsme.printStackTrace();
-      InstrumentationBackend.log("nsmee thrown " + nsme.getMessage());
-    } catch (IllegalArgumentException iarge) {
-      iarge.printStackTrace();
-      InstrumentationBackend.log("iarge thrown " + iarge.getMessage());
-    } catch (IllegalAccessException iacce) {
-      iacce.printStackTrace();
-      InstrumentationBackend.log("iacce thrown " + iacce.getMessage());
-    } catch (InvocationTargetException ite) {
-      ite.printStackTrace();
-      InstrumentationBackend.log("ite thrown " + ite.getMessage());
-    } catch (IllegalStateException ise) {
-      ise.printStackTrace();
-      InstrumentationBackend.log("ise thrown " + ise.getMessage());
-    }
-
-    return false;
-
+    Activity currentActivity = getCurrentActivity();
+    Method method = getMethod(currentActivity.getClass(), "setEnable3gForEmulator");
+    boolean success = invokeVoidMethod(method, null);
+    InstrumentationBackend.log("Invoked setEnable3gForEmulator result=" + success);
+    return success;
+    
   }
   
   protected int getOsVersion() {
@@ -289,23 +289,23 @@ public class We7Action {
   }
 
   protected boolean isGingerbread() {
-    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB);
+    return (android.os.Build.VERSION.SDK_INT >= 9 && android.os.Build.VERSION.SDK_INT < 11);
   }
 
   protected boolean isHoneycomb() {
-    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH);
+    return (android.os.Build.VERSION.SDK_INT >= 11 && android.os.Build.VERSION.SDK_INT < 14);
   }
   
   protected boolean isICS() {
-    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR1);
+    return (android.os.Build.VERSION.SDK_INT >= 14 && android.os.Build.VERSION.SDK_INT < 16);
   }
   
   protected boolean isJellybean() {
-    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN);
+    return (android.os.Build.VERSION.SDK_INT >= 16);
   }
   
   protected boolean isLaterThanGingerbread() {
-    return (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB);
+    return (android.os.Build.VERSION.SDK_INT >= 11);
   }
   
 }
