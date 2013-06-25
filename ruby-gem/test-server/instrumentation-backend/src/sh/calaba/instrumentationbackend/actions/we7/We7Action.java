@@ -127,10 +127,23 @@ public class We7Action {
 
   }
 
-
-  
   protected Integer getTestViewTagId() {
 
+    InstrumentationBackend.log("getTestViewTagId called");
+    
+    Activity currentActivity = getCurrentActivity();
+    Method method = getMethod(currentActivity.getClass(), "getTestItemsTagId");
+    Integer testTagArrayId = (Integer) invokeMethod(method, null);
+    
+    if (testTagArrayId == null) {
+      testTagArrayId = -1;
+    }
+
+    InstrumentationBackend.log("Retireved testTagArrayId = " + testTagArrayId);
+
+    return testTagArrayId;
+    
+    /*
     Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
     Integer testTagArrayId = null;
 
@@ -168,7 +181,7 @@ public class We7Action {
     InstrumentationBackend.log("Retireved testTagArrayId = " + testTagArrayId);
 
     return testTagArrayId;
-
+     */
   }
 
   private Method getMethod(Class<?> targetClass, String methodName) {
