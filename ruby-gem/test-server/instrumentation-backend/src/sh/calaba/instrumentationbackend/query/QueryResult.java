@@ -1,9 +1,9 @@
 package sh.calaba.instrumentationbackend.query;
 
-import sh.calaba.org.codehaus.jackson.map.ObjectMapper;
-
 import java.io.IOException;
 import java.util.List;
+
+import sh.calaba.org.codehaus.jackson.map.ObjectMapper;
 
 public class QueryResult {
 

@@ -22,7 +22,7 @@ public class We7WaitForListOfPlayablesLoaded extends We7Action implements Action
       }
     }
 
-    ListView waitingListView = InstrumentationBackend.solo.getCurrentListViews().get(0);
+    ListView waitingListView = InstrumentationBackend.solo.getCurrentViews(ListView.class).get(0);
 
     InstrumentationBackend.log("Found list. Waiting up to " + (timeout/1000) + " seconds for it to load)");
 
