@@ -3,6 +3,12 @@ package com.jayway.android.robotium.solo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jayway.android.robotium.solo.ClickerEnhanced;
+import com.jayway.android.robotium.solo.MapViewUtils;
+import com.jayway.android.robotium.solo.SearcherEnhanced;
+import com.jayway.android.robotium.solo.Solo;
+import com.jayway.android.robotium.solo.WaiterEnhanced;
+
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.TestHelpers;
 import android.app.Activity;
@@ -25,10 +31,12 @@ public class SoloEnhanced extends Solo {
     super(instrumentation, activity);
     this.mapViewUtils = new MapViewUtils(instrumentation, viewFetcher, sleeper, waiter);
 
-    this.clickerEnhanced = new ClickerEnhanced(activityUtils, viewFetcher, scroller, robotiumUtils, instrumentation, sleeper, waiter);
-    this.searcherEnhanced = new SearcherEnhanced(viewFetcher, scroller, sleeper);
     this.waiterEnhanced = new WaiterEnhanced(activityUtils, viewFetcher, this.searcherEnhanced, scroller, sleeper);
-
+    
+    this.clickerEnhanced = new ClickerEnhanced(activityUtils, viewFetcher, sender, instrumentation, sleeper, waiterEnhanced, webUtils);
+    
+    this.searcherEnhanced = new SearcherEnhanced(viewFetcher, webUtils, scroller, sleeper);
+    
     // this.pincher = new Pincher(instrumentation, viewFetcher);
   }
 

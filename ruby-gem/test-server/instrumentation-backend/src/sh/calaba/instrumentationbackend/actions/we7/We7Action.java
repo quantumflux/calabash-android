@@ -22,7 +22,7 @@ public class We7Action {
 
   public We7Action() {
 
-    StrictMode.enableDefaults();
+
 
   }
 
@@ -36,7 +36,7 @@ public class We7Action {
 
   protected int getListViewIndex(final String listContentDescription) {
 
-    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
+    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentViews(ListView.class);
 
     InstrumentationBackend.log("Found " + listViews.size() + " list views. Looking for index for " + listContentDescription);
 
@@ -62,7 +62,7 @@ public class We7Action {
 
   protected ListView getListView(final String tabName) {
 
-    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentListViews();
+    ArrayList<ListView> listViews = InstrumentationBackend.solo.getCurrentViews(ListView.class);
 
     InstrumentationBackend.log("Found " + listViews.size() + " list views. Looking for index for " + tabName);
 

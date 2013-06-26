@@ -20,6 +20,7 @@ public class WaiterEnhanced extends Waiter {
     final long endTime = SystemClock.uptimeMillis() + timeout;
 
     while (true) {
+      
       final boolean timedOut = SystemClock.uptimeMillis() > endTime;
       if (timedOut) {
         return false;
@@ -27,9 +28,9 @@ public class WaiterEnhanced extends Waiter {
 
       sleeper.sleep();
       
-      final boolean foundAnyTextView = searcher.searchForInView(view, TextView.class, text, expectedMinimumNumberOfMatches, timeout, scroll, onlyVisible);
+      TextView textViewFound = searcher.searchForInView(view, TextView.class, text, expectedMinimumNumberOfMatches, timeout, scroll, onlyVisible);
 
-      if (foundAnyTextView) {
+      if (textViewFound != null) {
         return true;
       }
     }
