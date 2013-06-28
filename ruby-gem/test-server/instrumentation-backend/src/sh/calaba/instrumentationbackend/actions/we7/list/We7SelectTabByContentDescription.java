@@ -31,11 +31,16 @@ public class We7SelectTabByContentDescription extends We7Action implements Actio
 
       final View tabView = tabHost.getTabWidget().getChildTabViewAt(i);
 
-      if (tabView.getContentDescription() != null) {
+      String tabContentDescription = tabView.getContentDescription().toString();
+      
+      if (tabContentDescription != null) {
 
-        InstrumentationBackend.log("Comparing to content description " + tabView.getContentDescription().toString() + " at index " + i);
+        tabContentDescription = tabContentDescription.replace("\n", " ");
+        tabContentDescription = tabContentDescription.replace("  ", " ");
+        
+        InstrumentationBackend.log("Comparing to content description " + tabContentDescription + " at index " + i);
 
-        if (tabView.getContentDescription().toString().equals(tabName)) {
+        if (tabContentDescription.equals(tabName)) {
 
           InstrumentationBackend.log("Found " + tabName);
           try {

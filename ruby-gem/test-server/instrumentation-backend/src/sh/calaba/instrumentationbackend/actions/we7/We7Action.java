@@ -44,6 +44,9 @@ public class We7Action {
 
       String contentDescription = listViews.get(i).getContentDescription().toString();
 
+      contentDescription = contentDescription.replace("\n", " ");
+      contentDescription = contentDescription.replace("  ", " ");
+      
       InstrumentationBackend.log("Content descrition for list index " + i + " = " + contentDescription);
 
       if (contentDescription.equalsIgnoreCase(listContentDescription)) {

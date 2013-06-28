@@ -32,9 +32,6 @@ public class We7SelectItemFromTabList extends We7Action implements Action {
 
     InstrumentationBackend.log("Tab host found");
 
-    // goto tab
-    InstrumentationBackend.solo.clickOnText(tabName);
-
     int listIndex = getListViewIndex(tabName);
 
     if (listIndex == -1) {
