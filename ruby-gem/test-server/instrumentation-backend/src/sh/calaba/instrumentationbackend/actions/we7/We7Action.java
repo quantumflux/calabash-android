@@ -5,11 +5,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.we7.actionbar.We7ActionHelper;
 import android.app.Activity;
 import android.os.StrictMode;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 
 public class We7Action {
@@ -322,6 +324,41 @@ public class We7Action {
   
   protected boolean isLaterThanGingerbread() {
     return (android.os.Build.VERSION.SDK_INT >= 11);
+  }
+  
+  protected enum ScrollDirection {
+    
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+    
+  }
+  
+  protected boolean scrollViewHorizontally(String viewResourceIdName, ScrollDirection direction) {
+    
+    HorizontalScrollView scrollView = TestHelpers.getViewById(viewResourceIdName, HorizontalScrollView.class);
+
+    if (scrollView != null) {
+
+      int scrollToVal;
+      
+      if (direction == ScrollDirection.LEFT) {
+        scrollToVal = scrollView.getWidth();
+      } else {
+        scrollToVal = 0;
+      }
+
+      scrollView.scrollTo(scrollToVal, 0);
+      
+      return true;
+      
+    } else {
+
+      return false;
+
+    }
+
   }
   
 }

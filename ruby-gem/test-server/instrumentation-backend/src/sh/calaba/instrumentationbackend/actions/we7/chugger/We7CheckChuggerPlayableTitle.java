@@ -2,6 +2,7 @@ package sh.calaba.instrumentationbackend.actions.we7.chugger;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
+import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.Action;
 import sh.calaba.instrumentationbackend.actions.we7.We7Action;
 import android.widget.TextView;
@@ -28,22 +29,34 @@ public class We7CheckChuggerPlayableTitle extends We7Action implements Action {
 		
 		int timeout = 90 * 1000;
 
-		TextView playableTitleTextView;
+		TextView playableNameTextView;
 		
 		long endTime = System.currentTimeMillis() + timeout;
 	    while (System.currentTimeMillis() < endTime) {
 
-	      playableTitleTextView = InstrumentationBackend.solo.getText(playableTitle);
+	      playableNameTextView = TestHelpers.getTextViewByDescription("playable name");
+	      
+	      //playableTitleTextView = InstrumentationBackend.solo.getText(playableTitle);
 	    	
-	      if (playableTitleTextView != null) {
+	      if (playableNameTextView != null) {
+	        
+	        String playingPlayableName = playableNameTextView.getText().toString();
 
-	        InstrumentationBackend.log("Found playable title");
+	        if (playingPlayableName.contains(playableTitle)) {
 
-	        return Result.successResult();
+	          InstrumentationBackend.log("Found playable title " + playingPlayableName);
+	          return Result.successResult();
+
+	        } else {
+
+	          InstrumentationBackend.log("Wrong playable title: " + playingPlayableName + " rather than " + playableTitle);
+	          return Result.failedResult();
+
+	        }
 
 	      } else {
 
-	        InstrumentationBackend.log("Not found playable title");
+	        InstrumentationBackend.log("Not found playable title view yet");
 
 	        try {
 	          Thread.sleep(500);

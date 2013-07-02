@@ -29,12 +29,21 @@ public class TestHelpers {
   }
 
   public static View getViewByDescription(String description) {
+    
+    InstrumentationBackend.log("Target content description = '" + description + "'...");
     for (View view : InstrumentationBackend.solo.getCurrentViews()) {
       String viewDescription = view.getContentDescription() + "";
+
       if (viewDescription != null && viewDescription.equalsIgnoreCase(description)) {
+        
+        InstrumentationBackend.log("Found correct view!");
+        
         return view;
       }
     }
+    
+    InstrumentationBackend.log("Didn't find correct view!");
+    
     return null;
   }
 
