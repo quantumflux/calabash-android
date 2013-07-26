@@ -6,6 +6,7 @@ import sh.calaba.instrumentationbackend.actions.Action;
 import sh.calaba.instrumentationbackend.actions.we7.We7Action;
 import android.view.View;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 
 public class We7SelectTabByContentDescription extends We7Action implements Action {
 
@@ -23,7 +24,14 @@ public class We7SelectTabByContentDescription extends We7Action implements Actio
 
     InstrumentationBackend.log("Tab host found");
 
-    int numberOfTabs = tabHost.getTabWidget().getTabCount();
+    TabWidget tabWidget = tabHost.getTabWidget();
+    
+    if (tabWidget == null) {
+      InstrumentationBackend.log("No TabWidget found");
+      return new Result(false, "No TabWidget found - why not");
+    }
+    
+    int numberOfTabs = tabWidget.getTabCount();
 
     InstrumentationBackend.log("Looking for tab with content description " + tabName);
 

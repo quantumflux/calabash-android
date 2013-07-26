@@ -5,11 +5,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
-import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.TestHelpers;
 import sh.calaba.instrumentationbackend.actions.we7.actionbar.We7ActionHelper;
 import android.app.Activity;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ListView;
@@ -298,6 +296,16 @@ public class We7Action {
     Method method = getMethod(currentActivity.getClass(), "setEnable3gForEmulator");
     boolean success = invokeVoidMethod(method, null);
     InstrumentationBackend.log("Invoked setEnable3gForEmulator result=" + success);
+    return success;
+    
+  }
+  
+  protected boolean setNoShareSplash() {
+
+    Activity currentActivity = getCurrentActivity();
+    Method method = getMethod(currentActivity.getClass(), "setNoShareSplash");
+    boolean success = invokeVoidMethod(method, null);
+    InstrumentationBackend.log("Invoked setNoShareSplash result=" + success);
     return success;
     
   }
