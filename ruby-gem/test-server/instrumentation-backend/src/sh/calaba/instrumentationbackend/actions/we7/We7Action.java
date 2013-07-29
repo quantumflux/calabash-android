@@ -300,12 +300,12 @@ public class We7Action {
     
   }
   
-  protected boolean setNoShareSplash() {
+  protected boolean disallowShareScreenOnLogin() {
 
     Activity currentActivity = getCurrentActivity();
-    Method method = getMethod(currentActivity.getClass(), "setNoShareSplash");
+    Method method = getMethod(currentActivity.getClass(), "disallowShareScreenOnLogin");
     boolean success = invokeVoidMethod(method, null);
-    InstrumentationBackend.log("Invoked setNoShareSplash result=" + success);
+    InstrumentationBackend.log("Invoked disallowShareScreenOnLogin result=" + success);
     return success;
     
   }
