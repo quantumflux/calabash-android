@@ -294,7 +294,7 @@ public class We7Action {
 
     Activity currentActivity = getCurrentActivity();
     Method method = getMethod(currentActivity.getClass(), "setEnable3gForEmulator");
-    boolean success = invokeVoidMethod(method, null);
+    boolean success = invokeVoidMethod(method, currentActivity);
     InstrumentationBackend.log("Invoked setEnable3gForEmulator result=" + success);
     return success;
     
@@ -304,7 +304,7 @@ public class We7Action {
 
     Activity currentActivity = getCurrentActivity();
     Method method = getMethod(currentActivity.getClass(), "disallowShareScreenOnLogin");
-    boolean success = invokeVoidMethod(method, null);
+    boolean success = invokeVoidMethod(method, currentActivity);
     InstrumentationBackend.log("Invoked disallowShareScreenOnLogin result=" + success);
     return success;
     

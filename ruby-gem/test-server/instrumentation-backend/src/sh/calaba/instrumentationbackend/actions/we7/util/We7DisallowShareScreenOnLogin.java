@@ -12,7 +12,7 @@ public class We7DisallowShareScreenOnLogin extends We7Action implements Action {
 
     if (disallowShareScreenOnLogin()) {
       InstrumentationBackend.log("Set disallow share screen on login");
-      return new Result(true, "Set disallow share screen on logi");
+      return new Result(true, "Set disallow share screen on login");
     } else {
       InstrumentationBackend.log("Not able to set disallow share screen on login");
       return new Result(false, "Not able to set disallow share screen on login");
@@ -22,7 +22,7 @@ public class We7DisallowShareScreenOnLogin extends We7Action implements Action {
 
   @Override
   public String key() {
-    return "disallow_share_screen_on_login";
+    return "disallow_share_screen";
   }
 
 }
