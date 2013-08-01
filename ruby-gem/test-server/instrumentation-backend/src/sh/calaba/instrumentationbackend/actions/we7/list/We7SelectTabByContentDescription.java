@@ -37,10 +37,10 @@ public class We7SelectTabByContentDescription extends We7Action implements Actio
       
       if (!failIfNoTabs) {
         InstrumentationBackend.log("failIfNoTabs == false so continuing");
-        return new Result(true);
+        return new Result(true, "failIfNoTabs == false - No TabHost found, but continuing");
       } else {
         InstrumentationBackend.log("failIfNoTabs == true so failing");
-        return new Result(false, "No TabHost found - am I on a tabbed page?");
+        return new Result(false, "failIfNoTabs == true - No TabHost found - am I on a tabbed page?");
       }
       
     }
@@ -54,10 +54,10 @@ public class We7SelectTabByContentDescription extends We7Action implements Actio
       
       if (!failIfNoTabs) {
         InstrumentationBackend.log("failIfNoTabs == false so continuing");
-        return new Result(true);
+        return new Result(true, "failIfNoTabs == false - No TabWidget found, but continuing");
       } else {
         InstrumentationBackend.log("failIfNoTabs == true so failing");
-        return new Result(false, "No TabWidget found - why not");
+        return new Result(false, "failIfNoTabs == true - No TabWidget found - why not");
       }
 
     }
