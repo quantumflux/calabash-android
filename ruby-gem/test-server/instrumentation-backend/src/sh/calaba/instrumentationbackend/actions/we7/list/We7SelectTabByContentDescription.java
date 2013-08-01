@@ -14,12 +14,35 @@ public class We7SelectTabByContentDescription extends We7Action implements Actio
   public Result execute(final String... args) {
 
     String tabName = args[0];
+    
+    boolean failIfNoTabs;
+    
+    if (args.length > 1) {
+      
+      if (args[1].equalsIgnoreCase("nofail")) {
+        failIfNoTabs = false;
+      } else {
+        failIfNoTabs = true;
+      }
+      
+    } else {
+      failIfNoTabs = true;
+    }
+    
 
     TabHost tabHost = (TabHost) InstrumentationBackend.solo.getView(TabHost.class, 0);
 
     if (tabHost == null) {
       InstrumentationBackend.log("No tab host found");
-      return new Result(false, "No TabHost found - am I on a tabbed page?");
+      
+      if (!failIfNoTabs) {
+        InstrumentationBackend.log("failIfNoTabs == false so continuing");
+        return new Result(true);
+      } else {
+        InstrumentationBackend.log("failIfNoTabs == true so failing");
+        return new Result(false, "No TabHost found - am I on a tabbed page?");
+      }
+      
     }
 
     InstrumentationBackend.log("Tab host found");
@@ -28,7 +51,15 @@ public class We7SelectTabByContentDescription extends We7Action implements Actio
     
     if (tabWidget == null) {
       InstrumentationBackend.log("No TabWidget found");
-      return new Result(false, "No TabWidget found - why not");
+      
+      if (!failIfNoTabs) {
+        InstrumentationBackend.log("failIfNoTabs == false so continuing");
+        return new Result(true);
+      } else {
+        InstrumentationBackend.log("failIfNoTabs == true so failing");
+        return new Result(false, "No TabWidget found - why not");
+      }
+
     }
     
     int numberOfTabs = tabWidget.getTabCount();
