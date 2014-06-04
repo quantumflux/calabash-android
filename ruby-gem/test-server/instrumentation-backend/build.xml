@@ -19,6 +19,8 @@
     </target>
 
     <target name="compile">
+        <echo message="<<<<< compile" />
+
         <mkdir dir="${classes.dir}"/>
         <javac 
             sourcepath="" 
@@ -29,10 +31,16 @@
 			    <include name="sh/calaba/instrumentationbackend/query/**/*.java"/>
 			    <exclude name="sh/calaba/instrumentationbackend/query/*.java"/> 
 			  </javac>
+
+        <echo message="compile >>>>>" />
     </target>
 
-
      <target name="test" depends="compile">
+         <echo message="<<<<< test" />
+
+         <property name="echoclasspath" refid="classpath"/>
+         <echo message="Classpath = ${echoclasspath}"/>
+
          <javac 
             sourcepath="" 
             srcdir="${test.dir}"
@@ -52,5 +60,7 @@
                 <fileset dir="${test.dir}" includes="**/*Test.java"/>
             </batchtest>
         </junit>
+
+         <echo message="test >>>>>" />
     </target>
 </project>
